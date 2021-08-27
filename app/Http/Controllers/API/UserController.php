@@ -3,40 +3,35 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+  function __construct()
+  {
+    $this->middleware('auth:sanctum')->only('show');
+  }
+
   /**
-   * Display a listing of the resource.
+   * Muestra todos los usuarios
    *
    * @return \Illuminate\Http\Response
    */
   public function index()
   {
-    //
+    return response()->json(User::all());
   }
 
   /**
-   * Store a newly created resource in storage.
+   * Muestra un usuario especifico
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param  User  $user
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function show(User $user)
   {
-    //
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function show($id)
-  {
-    //
+    return response()->json($user);
   }
 
   /**
