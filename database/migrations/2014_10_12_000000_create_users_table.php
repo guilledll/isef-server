@@ -17,10 +17,10 @@ class CreateUsersTable extends Migration
       $table->id('ci');
       $table->string('nombre', 50);
       $table->string('apellido', 50);
-      $table->string('email')->unique();
-      $table->string('direccion', 150);
+      $table->string('email', 255)->unique();
       $table->integer('telefono');
-      $table->integer('rol');
+      $table->foreignId('departamento_id')->constrained();
+      $table->tinyInteger('rol');
       $table->timestamp('email_verified_at')->nullable();
       $table->string('password');
       $table->rememberToken();

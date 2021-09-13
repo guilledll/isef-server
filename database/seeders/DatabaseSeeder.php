@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Departamento;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +15,7 @@ class DatabaseSeeder extends Seeder
    */
   public function run()
   {
-    \App\Models\User::factory(10)->create();
+    $dep = Departamento::factory()->create();
+    User::factory()->count(10)->for($dep)->create();
   }
 }
