@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DepartamentoResource;
 use App\Models\Departamento;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class DepartamentoController extends Controller
    */
   public function index()
   {
-    //
+    return DepartamentoResource::collection(Departamento::all());
   }
 
   /**

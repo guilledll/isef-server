@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-  function __construct()
-  {
-    $this->middleware('auth:sanctum');
-  }
-
   /**
    * Muestra todos los usuarios
    *
