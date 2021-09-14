@@ -6,7 +6,6 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
-use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -36,18 +35,26 @@ class FortifyServiceProvider extends ServiceProvider
   public function boot()
   {
     // Login del usuario
-    Fortify::authenticateUsing(function (LoginRequest $request) {
-      $user = User::where('correo', $request->correo)->first();
+    Fortify::authenticateUsing(function (Request $request) {
+      $request->validate([
+        'ci' => 'required|string',
+        'password' => 'required|string',
+      ]);
+
+      // Autenticacion con correo o ci
+      $user = User::where('ci', $request->ci)
+        ->orWhere('correo', $request->ci)
+        ->first();
 
       if (!$user || !Hash::check($request->password, $user->password)) {
         throw ValidationException::withMessages([
-          'correo' => ['Las credenciales no son correctas'],
+          'ci' => ['Las credenciales no son correctas'],
         ]);
       }
 
-      $token = $user->createToken($request->device_name)->plainTextToken;
+      $user->createToken($request->ci);
 
-      return response()->json(['token' => $token], 200);
+      return $user;
     });
 
     Fortify::createUsersUsing(CreateNewUser::class);
