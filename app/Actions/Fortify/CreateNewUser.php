@@ -37,7 +37,7 @@ class CreateNewUser implements CreatesNewUsers
       'departamento_id' => $input['departamento'],
       'telefono' => $input['telefono'],
       'password' => Hash::make($input['password']),
-      'rol' => 1, // 1 => Usuario // 2 => Guardia // 3 => Admin
+      'rol' => 0, // 0 => Por verificar // 1 => Usuario // 2 => Guardia // 3 => Admin
     ]);
   }
 }
