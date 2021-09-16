@@ -5,7 +5,6 @@ namespace App\Actions\Fortify;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
@@ -13,7 +12,7 @@ class CreateNewUser implements CreatesNewUsers
   use PasswordValidationRules;
 
   /**
-   * Validate and create a newly registered user.
+   * Valida y crea un usuario.
    *
    * @param  array  $input
    * @return \App\Models\User
@@ -21,21 +20,24 @@ class CreateNewUser implements CreatesNewUsers
   public function create(array $input)
   {
     Validator::make($input, [
-      'name' => ['required', 'string', 'max:255'],
-      'email' => [
-        'required',
-        'string',
-        'email',
-        'max:255',
-        Rule::unique(User::class),
-      ],
+      'ci' => ['required', 'integer', 'digits:8', 'unique:users,ci'],
+      'correo' => ['required', 'string', 'email', 'max:255', 'unique:users,correo'],
+      'nombre' => ['required', 'string', 'max:50'],
+      'apellido' => ['required', 'string', 'max:50'],
+      'departamento' => ['required', 'integer', 'exists:departamentos,id'],
+      'telefono' => ['required', 'string', 'size:9'], // CAMBIAR A INTEGER
       'password' => $this->passwordRules(),
     ])->validate();
 
     return User::create([
-      'name' => $input['name'],
-      'email' => $input['email'],
+      'ci' => $input['ci'],
+      'nombre' => $input['nombre'],
+      'apellido' => $input['apellido'],
+      'correo' => $input['correo'],
+      'departamento_id' => $input['departamento'],
+      'telefono' => $input['telefono'],
       'password' => Hash::make($input['password']),
+      'rol' => 0, // 0 => Por verificar // 1 => Usuario // 2 => Guardia // 3 => Admin
     ]);
   }
 }
