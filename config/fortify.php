@@ -1,6 +1,5 @@
 <?php
 
-use App\Providers\RouteServiceProvider;
 use Laravel\Fortify\Features;
 
 return [
@@ -48,7 +47,7 @@ return [
 
   'username' => 'ci',
 
-  'email' => 'email',
+  'email' => 'correo',
 
   /*
     |--------------------------------------------------------------------------
@@ -61,7 +60,7 @@ return [
     |
     */
 
-  'home' => RouteServiceProvider::HOME,
+  'home' => env('SPA_URL') . '/home',
 
   /*
     |--------------------------------------------------------------------------
