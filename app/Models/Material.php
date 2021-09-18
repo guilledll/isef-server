@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Material extends Model
 {
+    public $table = "materiales";
+    public $timestamps = false;
     use HasFactory;
 
-    public $timestamps = false;
-
     protected $fillable = [
-        'nombre',
         'cantidad'
     ];
 

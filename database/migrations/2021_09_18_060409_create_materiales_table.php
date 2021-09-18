@@ -15,16 +15,17 @@ class CreateMaterialesTable extends Migration
     {
         Schema::create('materiales', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre', 50);
             $table->unsignedBigInteger('deposito_id');
             $table->unsignedBigInteger('categoria_id');
-            $table->integer('cantidad');
+            $table->Integer('cantidad');
 
-            /** Claves forenea a la tabla Depósito */
+            /** Clave foranea a la tabla Depósito */
             $table->foreign('deposito_id')
             ->references('id')->on('depositos')
             ->onDelete('cascade');
 
-            /** Claves forenea a la tabla Categoría */
+            /** Clave foranea a la tabla Categoría */
             $table->foreign('categoria_id')
             ->references('id')->on('categorias')
             ->onDelete('cascade');
