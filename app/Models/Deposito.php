@@ -13,7 +13,6 @@ class Deposito extends Model
 
     protected $fillable = [
         'nombre',
-        'departamento_id'
     ];
     /** Relación Depósitos -> Departamento (N:1) */
     public function Departamento()
