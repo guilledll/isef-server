@@ -13,15 +13,17 @@ class Material extends Model
 
     protected $fillable = [
         'nombre',
-        'cantidad',
+        'cantidad'
     ];
 
+    /**Material -> Deposito (1:1) */
     public function Deposito()
     {
-        return $this->belongsTo('App\Models\Deposito');
+        return $this->hasOne(Deposito::class);
     }
+    /**Material -> Categoria (1:1) */
     public function Categoria()
     {
-        return $this->belongsTo('App\Models\Categoria');
+        return $this->hasOne(Categoria::class);
     }
 }

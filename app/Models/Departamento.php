@@ -13,11 +13,12 @@ class Departamento extends Model
 
   protected $fillable = [
     'nombre',
-    'departamento_id'
   ];
 
-  public function users()
-  {
-    return $this->hasMany(User::class);
-  }
+    /** Departamento(id)->Deposito(departamento_id) (1:N)
+      */
+    public function Deposito()
+    {
+        return $this->hasMany(Deposito::class);
+    }
 }

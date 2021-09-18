@@ -12,11 +12,14 @@ class Categoria extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'nombre',
+        'nombre'
     ];
 
-    public function Categoria()
+    /** Categoría(id)->Materiales(categoria_id) (1:N)
+     * Obtiene los materiales de esta categoria. */
+    public function Material()
     {
-        return $this->belongsTo('App\Models\Departamento');
+        return $this->hasMany(Material::class);
     }
+
 }

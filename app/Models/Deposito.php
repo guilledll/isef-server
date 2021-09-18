@@ -14,9 +14,15 @@ class Deposito extends Model
     protected $fillable = [
         'nombre',
     ];
-    /** Relación Depósitos -> Departamento (N:1) */
+    /**  Depósitos -> Departamento (N:1) */
     public function Departamento()
     {
-        return $this->belongsTo('App\Models\Departamento');
+        return $this->belongsTo(Departamento::class);
     }
+    /**  Depósitos -> Materiales (1:N) */
+    public function Material()
+    {
+        return $this->hasMany(Material::class);
+    }
+
 }
