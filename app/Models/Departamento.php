@@ -12,7 +12,8 @@ class Departamento extends Model
   public $timestamps = false;
 
   protected $fillable = [
-    'nombre',
+    'id',
+    'nombre'
   ];
 
   public function users()
