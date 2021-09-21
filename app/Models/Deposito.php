@@ -15,12 +15,12 @@ class Deposito extends Model
         'nombre',
     ];
     /**  Depósitos -> Departamento (N:1) */
-    public function Departamento()
+    public function departamento()
     {
         return $this->belongsTo(Departamento::class);
     }
     /**  Depósitos -> Materiales (1:N) */
-    public function Material()
+    public function material()
     {
         return $this->hasMany(Material::class);
     }

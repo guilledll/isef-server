@@ -20,15 +20,16 @@ class CreateMaterialesTable extends Migration
             $table->unsignedBigInteger('categoria_id');
             $table->Integer('cantidad');
 
+
             /** Clave foranea a la tabla Depósito */
             $table->foreign('deposito_id')
-            ->references('id')->on('depositos')
-            ->onDelete('cascade');
+                ->references('id')->on('depositos')
+                ->onDelete('cascade');
 
             /** Clave foranea a la tabla Categoría */
             $table->foreign('categoria_id')
-            ->references('id')->on('categorias')
-            ->onDelete('cascade');
+                ->references('id')->on('categorias')
+                ->onDelete('cascade');
         });
     }
 

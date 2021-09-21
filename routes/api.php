@@ -1,5 +1,7 @@
 <?php
+
 use App\Http\Controllers\API\DepartamentoController;
+use App\Http\Controllers\API\InventarioController;
 use App\Http\Controllers\API\MaterialController;
 use App\Http\Controllers\API\CategoriaController;
 use App\Http\Controllers\API\DepositoController;
@@ -15,7 +17,8 @@ Route::group(['prefix' => 'v1'], function () {
             'departamentos' => DepartamentoController::class,
             'depositos' => DepositoController::class,
             'categorias' => CategoriaController::class,
-            'materiales' => CategoriaController::class
+            'materiales' => CategoriaController::class,
+            'inventario' => InventarioController::class
         ]);
     });
     Route::get('/departamentos', [DepartamentoController::class, 'index'])->withoutMiddleware('auth:sanctum');
@@ -32,4 +35,7 @@ Route::group(['prefix' => 'v1'], function () {
     //Materiales http://localhost:8000/api/v1/materiales
     Route::get('/materiales', [MaterialController::class, 'index'])->withoutMiddleware('auth:sanctum');
     Route::post('/materiales', [MaterialController::class, 'store'])->withoutMiddleware('auth:sanctum');
+
+    //Inventario http://localhost:8000/api/v1/inventario
+    Route::get('/inventario', [InventarioController::class, 'index'])->withoutMiddleware('auth:sanctum');
 });

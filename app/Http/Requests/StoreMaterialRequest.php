@@ -27,7 +27,6 @@ class StoreMaterialRequest extends FormRequest
             /*'nombre' => 'required',
             'deposito_id' => 'required',
             'categoria_id' => 'required',
-            'cantidad' => 'required' */
-        ];
+            'cantidad' => 'required' */];
     }
 }

@@ -7,19 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Categoria extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    public $timestamps = false;
+  public $timestamps = false;
 
-    protected $fillable = [
-        'nombre'
-    ];
+  protected $fillable = [
+    'nombre'
+  ];
 
-    /** Categoría(id)->Materiales(categoria_id) (1:N)
-     * Obtiene los materiales de esta categoria. */
-    public function Material()
-    {
-        return $this->hasMany(Material::class);
-    }
-
+  /** Categoría(id)->Materiales(categoria_id) (1:N)
+   * Obtiene los materiales de esta categoria. */
+  public function material()
+  {
+    return $this->hasMany(Material::class);
+  }
 }

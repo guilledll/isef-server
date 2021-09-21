@@ -17,8 +17,14 @@ class Departamento extends Model
 
     /** Departamento(id)->Deposito(departamento_id) (1:N)
       */
-    public function Deposito()
+    public function deposito()
     {
         return $this->hasMany(Deposito::class);
     }
+        /** Departamento(id)->Usuario(usuario) (1:N)
+      */
+      public function usuario()
+      {
+          return $this->hasMany(Usuario::class);
+      }
 }

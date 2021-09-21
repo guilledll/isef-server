@@ -10,33 +10,39 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+  use HasApiTokens, HasFactory, Notifiable;
 
-    protected $primaryKey = 'ci';
-    public $incrementing = false;
+  protected $primaryKey = 'ci';
+  public $incrementing = false;
 
-    protected $fillable = [
-        'ci',
-        'nombre',
-        'apellido',
-        'correo',
-        'password',
-        'telefono',
-        'departamento_id',
-        'rol'
-    ];
+  protected $fillable = [
+    'ci',
+    'nombre',
+    'apellido',
+    'correo',
+    'password',
+    'telefono',
+    'departamento_id',
+    'rol'
+  ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+  protected $hidden = [
+    'password',
+    'remember_token',
+  ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+  protected $casts = [
+    'email_verified_at' => 'datetime',
+  ];
 
-    public function departamento()
-    {
-        return $this->belongsTo(Departamento::class);
-    }
+  public function departamento()
+  {
+    return $this->belongsTo(Departamento::class);
+  }
+
+  /**  User -> Inventario (1:1) */
+  public function inventario()
+  {
+    return $this->hasMany(Inventario::class, "user_ci", "ci");
+  }
 }
