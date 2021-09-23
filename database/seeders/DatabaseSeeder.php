@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Departamento;
 use App\Models\User;
+use App\Models\Deposito;
+use App\Models\Categoria;
+use App\Models\Departamento;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

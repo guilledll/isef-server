@@ -39,4 +39,10 @@ class User extends Authenticatable
   {
     return $this->belongsTo(Departamento::class);
   }
+
+  /**  User -> Inventario (1:1) */
+  public function inventario()
+  {
+    return $this->hasMany(Inventario::class, "user_ci", "ci");
+  }
 }
