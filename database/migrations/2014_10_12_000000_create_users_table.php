@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
       $table->string('correo', 255)->unique();
       $table->integer('telefono');
       $table->foreignId('departamento_id')->constrained();
-      $table->tinyInteger('rol');
+      $table->smallInteger('rol');
       $table->timestamp('email_verified_at')->nullable();
       $table->string('password');
       $table->rememberToken();

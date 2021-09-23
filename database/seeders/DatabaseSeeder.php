@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
   {
     $dep = Departamento::factory()->create();
     User::factory()->count(10)->for($dep)->create();
+    $this->call(UserSeeder::class);
   }
 }
