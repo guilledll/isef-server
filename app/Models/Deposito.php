@@ -25,4 +25,6 @@ class Deposito extends Model
         return $this->hasMany(Material::class);
     }
 
+
+    
 }

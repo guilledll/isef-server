@@ -69,23 +69,7 @@ class MaterialController extends Controller
      */
     public function update(Request $request, Material $material)
     {
-    /** Verifico y valido los datos */
-    Material::validate($request);
 
-    Material::find($trabajo->id)
-      ->update([
-        'nombre'  => $request->nombre,
-        'tipo'    => $request->tipo,
-        'cobro'   => $request->cobro,
-        'horas'   => $request->horas,
-        'noche'   => $request->noche,
-        'sueldo'  => $request->sueldo,
-        'entrada' => $request->entrada,
-        'salida'  => $request->salida,
-        'color'   => $request->color,
-      ]);
-
-    return response()->json(['message' => 'Trabajo modificado con exito!'], 200);
     }
 
     /**
