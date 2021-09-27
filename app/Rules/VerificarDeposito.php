@@ -24,14 +24,12 @@ class VerificarDeposito implements Rule
    * @param  mixed  $value
    * @return bool
    */
-
-
   public function passes($attribute, $value)
   {
-    return  Deposito::where(
-      [['departamento_id', $this->departamento_id], ['nombre', $value]]
-
-    )->exists();
+    return !Deposito::where([
+      ['departamento_id', $this->departamento_id],
+      ['nombre', $value]
+    ])->exists();
   }
 
   /**
@@ -41,6 +39,6 @@ class VerificarDeposito implements Rule
    */
   public function message()
   {
-    return 'The validation error message.';
+    return 'Ya existe un depósito con este nombre.';
   }
 }
