@@ -30,7 +30,6 @@ class CategoriaController extends Controller
    */
   public function store(StoreCategoriaRequest $request)
   {
-
     $categoria = new Categoria();
     $categoria->nombre = $request->nombre;
     $categoria->save();
@@ -52,13 +51,17 @@ class CategoriaController extends Controller
   /**
    * Update the specified resource in storage.
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param  \Illuminate\Http\StoreCategoriaRequest  $request
    * @param  \App\Models\Categoria  $categoria
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Categoria $categoria)
+  public function update(StoreCategoriaRequest $request, Categoria $categoria)
   {
-    //
+    $categoria->update([
+      'nombre' => $request->nombre,
+    ]);
+
+    return response()->json(['message' => 'Categoría modificada con éxito!'], 200);
   }
 
   /**

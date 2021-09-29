@@ -9,80 +9,77 @@ use Illuminate\Routing\Controller;
 
 class InventarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return InventarioResource::collection(Inventario::all());
-    }
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index()
+  {
+    return InventarioResource::collection(Inventario::all());
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function create(Request $request)
+  {
+  }
 
-    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function store(Request $request)
+  {
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+  /**
+   * Display the specified resource.
+   *
+   * @param  \App\Models\Inventario  $inventario
+   * @return \Illuminate\Http\Response
+   */
+  public function show(Inventario $inventario)
+  {
+    return new InventarioResource($inventario);
+  }
 
-    }
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  \App\Models\Inventario  $inventario
+   * @return \Illuminate\Http\Response
+   */
+  public function edit(Inventario $inventario)
+  {
+    //
+  }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Inventario  $inventario
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Inventario $inventario)
-    {
-        return new InventarioResource($inventario);
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Models\Inventario  $inventario
+   * @return \Illuminate\Http\Response
+   */
+  public function update(Request $request, Inventario $inventario)
+  {
+    //
+  }
 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Inventario  $inventario
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Inventario $inventario)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Inventario  $inventario
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Inventario $inventario)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Inventario  $inventario
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Inventario $inventario)
-    {
-        //
-    }
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  \App\Models\Inventario  $inventario
+   * @return \Illuminate\Http\Response
+   */
+  public function destroy(Inventario $inventario)
+  {
+    //
+  }
 }

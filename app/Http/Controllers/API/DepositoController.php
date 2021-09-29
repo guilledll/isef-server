@@ -50,7 +50,7 @@ class DepositoController extends Controller
   /**
    * Update the specified resource in storage.
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Http\Requests\StoreDepositoRequest  $request
    * @param  \App\Models\Departamento  $deposito
    * @return \Illuminate\Http\Response
    */

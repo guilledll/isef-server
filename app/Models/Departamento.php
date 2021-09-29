@@ -15,16 +15,16 @@ class Departamento extends Model
     'nombre',
   ];
 
-    /** Departamento(id)->Deposito(departamento_id) (1:N)
-      */
-    public function deposito()
-    {
-        return $this->hasMany(Deposito::class);
-    }
-        /** Departamento(id)->Usuario(usuario) (1:N)
-      */
-      public function usuario()
-      {
-          return $this->hasMany(Usuario::class);
-      }
+  /** Departamento(id)->Deposito(departamento_id) (1:N)
+   */
+  public function deposito()
+  {
+    return $this->hasMany(Deposito::class);
+  }
+  /** Departamento(id)->Usuario(usuario) (1:N)
+   */
+  public function usuario()
+  {
+    return $this->hasMany(Usuario::class);
+  }
 }
