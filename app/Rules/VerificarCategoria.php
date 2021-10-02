@@ -2,19 +2,19 @@
 
 namespace App\Rules;
 
-use App\Models\Deposito;
+use App\Models\Categoria;
 use Illuminate\Contracts\Validation\Rule;
 
-class VerificarDeposito implements Rule
+class VerificarCategoria implements Rule
 {
   /**
    * Create a new rule instance.
    *
    * @return void
    */
-  public function __construct($departamento_id)
+  public function __construct()
   {
-    $this->departamento_id = $departamento_id;
+    //
   }
 
   /**
@@ -26,10 +26,11 @@ class VerificarDeposito implements Rule
    */
   public function passes($attribute, $value)
   {
-    return !Deposito::where([
-      ['departamento_id', $this->departamento_id],
-      ['nombre', $value]
-    ])->exists();
+    echo $value;
+    return Categoria::where(
+      'nombre',
+      $value
+    )->doesntExist();
   }
 
   /**
@@ -39,6 +40,6 @@ class VerificarDeposito implements Rule
    */
   public function message()
   {
-    return 'Ya existe un depósito con este nombre.';
+    return 'Ya existe una categoría con este nombre.';
   }
 }

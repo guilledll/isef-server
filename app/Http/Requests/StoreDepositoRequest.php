@@ -24,13 +24,11 @@ class StoreDepositoRequest extends FormRequest
    */
   public function rules()
   {
+    $dep = $this->input('departamento_id');
+
     return [
       'departamento_id' => ['required', 'integer', 'exists:departamentos,id'],
-
-      'nombre' => [
-        'required', new VerificarDeposito($this->input('departamento_id'))
-      ]
-
+      'nombre' => ['required', new VerificarDeposito($dep)]
     ];
   }
 }

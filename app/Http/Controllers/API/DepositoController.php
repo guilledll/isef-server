@@ -28,7 +28,6 @@ class DepositoController extends Controller
    */
   public function store(StoreDepositoRequest $request)
   {
-
     $deposito = new Deposito();
     $deposito->nombre = $request->nombre;
     $deposito->departamento_id = $request->departamento_id;
@@ -51,11 +50,11 @@ class DepositoController extends Controller
   /**
    * Update the specified resource in storage.
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Http\Requests\StoreDepositoRequest  $request
    * @param  \App\Models\Departamento  $deposito
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Deposito $deposito)
+  public function update(StoreDepositoRequest $request, Deposito $deposito)
   {
     $deposito->update([
       'nombre' => $request->nombre
