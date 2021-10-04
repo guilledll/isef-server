@@ -54,10 +54,15 @@ class DepartamentoController extends Controller
    * @param  \App\Models\Departamento  $departamento
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Departamento $departamento)
+  public function update(StoreDepartamentoRequest $request, Departamento $departamento)
   {
-    //
+    $departamento->update([
+      'nombre' => $request->nombre,
+    ]);
+
+    return response()->json(['message' => 'Departamento modificado con éxito!'], 200);
   }
+
 
   /**
    * Remove the specified resource from storage.
