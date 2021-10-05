@@ -17,7 +17,10 @@ class DepositoController extends Controller
    */
   public function index()
   {
-    return DepositoResource::collection(Deposito::all());
+    return DepositoResource::collection(
+      Deposito::with(['departamento'])
+        ->withSum('materiales as cantidad_materiales', 'cantidad')->get()
+    );
   }
 
   /**
