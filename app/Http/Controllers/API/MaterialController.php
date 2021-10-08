@@ -31,22 +31,38 @@ class MaterialController extends Controller
   public function store(StoreMaterialRequest $request)
   {
 
-    $material = new Material();
-    $material->nombre = $request->nombre;
-    $material->deposito_id = $request->deposito_id;
-    $material->categoria_id = $request->categoria_id;
-    $material->cantidad = $request->cantidad;
-    $material->save();
+    foreach ($request->materiales as $data) {
 
-    //Agregar al inventario.
-    $inventario = new Inventario();
-    $inventario->user_ci = $request->user()->ci;
-    $inventario->cantidad = $request->cantidad;
-    $inventario->accion = "Alta";
-    $inventario->fecha = now();
-    $material->Inventario()->save($inventario);
+      $material = new Material();
+      $material->nombre = $data['nombre'];
+      $material->deposito_id = $data['deposito_id'];
+      $material->categoria_id = $data['categoria_id'];
+      $material->cantidad = $data['cantidad'];
+      
+      $inventario = new Inventario();
+      $inventario->user_ci = $request->usuario_ci;
+      $inventario->cantidad = $data['cantidad'];
+      $inventario->accion = "Alta";
+      $inventario->fecha = now();
+      $material->Inventario()->save($inventario);
+    }
+    /*
+      $material = new Material();
+      $material->nombre = $request->materiales;
+      $material->deposito_id = $request->deposito_id;
+      $material->categoria_id = $request->categoria_id;
+      $material->cantidad = $request->cantidad;
+      $material->save();
 
-    return response()->json(['message' => 'Material registrado con éxito!'], 200);
+      //Agregar al inventario.
+      $inventario = new Inventario();
+      $inventario->user_ci = $request->user()->ci;
+      $inventario->cantidad = $request->cantidad;
+      $inventario->accion = "Alta";
+      $inventario->fecha = now();
+      $material->Inventario()->save($inventario);
+    */
+    return response()->json(['message' => 'Material agregado con éxito!'], 200);
   }
 
   /**
