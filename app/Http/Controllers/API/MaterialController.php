@@ -38,13 +38,16 @@ class MaterialController extends Controller
       $material->deposito_id = $data['deposito_id'];
       $material->categoria_id = $data['categoria_id'];
       $material->cantidad = $data['cantidad'];
-      
+
+      $material->save();
+
       $inventario = new Inventario();
+      $inventario->material_id = $material->id;
       $inventario->user_ci = $request->usuario_ci;
       $inventario->cantidad = $data['cantidad'];
       $inventario->accion = "Alta";
       $inventario->fecha = now();
-      $material->Inventario()->save($inventario);
+      $inventario->save();
     }
     /*
       $material = new Material();
