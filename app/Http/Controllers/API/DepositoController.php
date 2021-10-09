@@ -17,9 +17,11 @@ class DepositoController extends Controller
    */
   public function index()
   {
+    // return response()->json(Deposito::all());
     return DepositoResource::collection(
-      Deposito::with(['departamento'])
-        ->withSum('materiales as cantidad_materiales', 'cantidad')->get()
+      Deposito::withSum('materiales as cantidad_materiales', 'cantidad')
+        ->with('departamento')
+        ->get()
     );
   }
 
@@ -47,7 +49,7 @@ class DepositoController extends Controller
    */
   public function show(Deposito $deposito)
   {
-    //
+    return new DepositoResource($deposito);
   }
 
   /**

@@ -19,7 +19,7 @@ class DepositoResource extends JsonResource
       'nombre' => $this->nombre,
       'departamento_id' => $this->departamento_id,
       'departamento' => $this->departamento->nombre,
-      'materiales' => $this->cantidad_materiales,
+      'cantidad_materiales' => intval($this->cantidad_materiales),
     ];
   }
 }
