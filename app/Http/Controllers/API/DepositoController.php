@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Deposito;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDepositoRequest;
 use App\Http\Resources\DepositoResource;
@@ -17,7 +16,6 @@ class DepositoController extends Controller
    */
   public function index()
   {
-    // return response()->json(Deposito::all());
     return DepositoResource::collection(
       Deposito::withSum('materiales as cantidad_materiales', 'cantidad')
         ->with('departamento')
@@ -76,6 +74,8 @@ class DepositoController extends Controller
    */
   public function destroy(Deposito $deposito)
   {
-    //
+    $deposito->delete();
+
+    return response()->json(['message' => 'Depósito eliminado con éxito!'], 200);
   }
 }
