@@ -10,6 +10,16 @@ use App\Http\Resources\DepositoResource;
 class DepositoController extends Controller
 {
   /**
+   * Asigna la respectiva "Policy" a cada función:
+   * 
+   * @return \App\Policies\DepositoPolicy 
+   */
+  public function __construct()
+  {
+    $this->authorizeResource(Deposito::class, 'deposito');
+  }
+
+  /**
    * Display a listing of the resource.
    *
    * @return \Illuminate\Http\Response
