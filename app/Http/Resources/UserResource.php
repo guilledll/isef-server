@@ -20,8 +20,9 @@ class UserResource extends JsonResource
       'apellido' => $this->apellido,
       'correo' => $this->correo,
       'telefono' => $this->telefono,
-      'departamento_id' => $this->departamento_id,
-      'rol' => $this->rol
+      'departamento_id' => $this->departamento->id,
+      'rol' => $this->rol,
+      'departamento' => $this->departamento->nombre
     ];
   }
 }

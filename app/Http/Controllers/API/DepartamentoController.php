@@ -72,6 +72,8 @@ class DepartamentoController extends Controller
    */
   public function destroy(Departamento $departamento)
   {
-    //
+    $departamento->delete();
+
+    return response()->json(['message' => 'Departamento eliminado con éxito!'], 200);
   }
 }
