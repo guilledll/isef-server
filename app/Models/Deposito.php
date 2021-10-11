@@ -20,7 +20,7 @@ class Deposito extends Model
     return $this->belongsTo(Departamento::class);
   }
   /**  Depósitos -> Materiales (1:N) */
-  public function material()
+  public function materiales()
   {
     return $this->hasMany(Material::class);
   }

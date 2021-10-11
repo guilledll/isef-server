@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Deposito;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDepositoRequest;
 use App\Http\Resources\DepositoResource;
@@ -11,13 +10,27 @@ use App\Http\Resources\DepositoResource;
 class DepositoController extends Controller
 {
   /**
+   * Asigna la respectiva "Policy" a cada función:
+   * 
+   * @return \App\Policies\DepositoPolicy 
+   */
+  public function __construct()
+  {
+    $this->authorizeResource(Deposito::class, 'deposito');
+  }
+
+  /**
    * Display a listing of the resource.
    *
    * @return \Illuminate\Http\Response
    */
   public function index()
   {
-    return DepositoResource::collection(Deposito::all());
+    return DepositoResource::collection(
+      Deposito::withSum('materiales as cantidad_materiales', 'cantidad')
+        ->with('departamento')
+        ->get()
+    );
   }
 
   /**
@@ -44,7 +57,7 @@ class DepositoController extends Controller
    */
   public function show(Deposito $deposito)
   {
-    //
+    return new DepositoResource($deposito);
   }
 
   /**
@@ -71,6 +84,8 @@ class DepositoController extends Controller
    */
   public function destroy(Deposito $deposito)
   {
-    //
+    $deposito->delete();
+
+    return response()->json(['message' => 'Depósito eliminado con éxito!'], 200);
   }
 }
