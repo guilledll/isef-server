@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Departamento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreDepartamentoRequest;
+use App\Http\Requests\Departamento\StoreDepartamentoRequest;
 use App\Http\Resources\DepartamentoResource;
 
 class DepartamentoController extends Controller
