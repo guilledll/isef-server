@@ -4,8 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Deposito;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreDepositoRequest;
+use App\Http\Requests\Deposito\StoreDepositoRequest;
 use App\Http\Resources\DepositoResource;
+use Illuminate\Support\Facades\DB;
 
 class DepositoController extends Controller
 {
@@ -36,7 +37,7 @@ class DepositoController extends Controller
   /**
    * Store a newly created resource in storage.
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Http\Requests\Deposito\StoreDepositoRequest  $request
    * @return \Illuminate\Http\Response
    */
   public function store(StoreDepositoRequest $request)
@@ -84,6 +85,12 @@ class DepositoController extends Controller
    */
   public function destroy(Deposito $deposito)
   {
+    $deposito->loadSum('materiales', 'cantidad');
+
+    if ($deposito->materiales_sum_cantidad) {
+      return response()->json(['message' => 'El depósito contiene materiales'], 422);
+    }
+
     $deposito->delete();
 
     return response()->json(['message' => 'Depósito eliminado con éxito!'], 200);

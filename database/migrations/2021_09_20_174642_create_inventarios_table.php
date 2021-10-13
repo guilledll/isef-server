@@ -17,8 +17,8 @@ class CreateInventariosTable extends Migration
       $table->bigIncrements('id');
       $table->unsignedBigInteger('material_id');
       $table->unsignedInteger('user_ci');
-      $table->Integer('cantidad');
-      $table->String('accion');
+      $table->integer('cantidad');
+      $table->string('accion');
       $table->datetime('fecha');
 
       /** Clave foranea a la tabla Materiales */

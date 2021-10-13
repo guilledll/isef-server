@@ -25,7 +25,7 @@ class CreateNewUser implements CreatesNewUsers
       'nombre' => ['required', 'string', 'max:50'],
       'apellido' => ['required', 'string', 'max:50'],
       'departamento' => ['required', 'integer', 'exists:departamentos,id'],
-      'telefono' => ['required', 'string', 'size:9'], // CAMBIAR A INTEGER
+      'telefono' => ['required', 'string', 'size:9', 'unique:users,telefono'],
       'password' => $this->passwordRules(),
     ])->validate();
 

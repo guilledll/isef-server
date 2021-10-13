@@ -8,7 +8,7 @@ use App\Models\Inventario;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MaterialResource;
-use App\Http\Requests\StoreMaterialRequest;
+use App\Http\Requests\Material\StoreMaterialRequest;
 
 class MaterialController extends Controller
 {

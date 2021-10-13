@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Departamento;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMaterialRequest extends FormRequest
+class StoreDepartamentoRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class StoreMaterialRequest extends FormRequest
    */
   public function authorize()
   {
-    return true;
+    return false;
   }
 
   /**
@@ -24,9 +24,7 @@ class StoreMaterialRequest extends FormRequest
   public function rules()
   {
     return [
-      /*'nombre' => 'required',
-            'deposito_id' => 'required',
-            'categoria_id' => 'required',
-            'cantidad' => 'required' */];
+      'nombre' => 'required|unique:departamentos|max:20'
+    ];
   }
 }
