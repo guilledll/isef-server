@@ -6,7 +6,6 @@ use App\Models\Deposito;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Deposito\StoreDepositoRequest;
 use App\Http\Resources\DepositoResource;
-use Illuminate\Support\Facades\DB;
 
 class DepositoController extends Controller
 {
@@ -47,7 +46,7 @@ class DepositoController extends Controller
     $deposito->departamento_id = $request->departamento_id;
     $deposito->save();
 
-    return response()->json(['message' => 'Depósito registrado con éxito!'], 200);
+    return response($deposito);
   }
 
   /**
