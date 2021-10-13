@@ -17,7 +17,7 @@ class CategoriaResource extends JsonResource
     return [
       'id' => $this->id,
       'nombre' => $this->nombre,
-      'materiales' => $this->cantidad_materiales
+      'cantidad_materiales' => intval($this->cantidad_materiales)
     ];
   }
 }

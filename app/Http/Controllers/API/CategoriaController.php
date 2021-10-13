@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCategoriaRequest;
+use App\Http\Requests\Categoria\StoreCategoriaRequest;
 use App\Http\Resources\CategoriaResource;
 
 class CategoriaController extends Controller
@@ -18,7 +18,8 @@ class CategoriaController extends Controller
   public function index()
   {
     return CategoriaResource::collection(
-      Categoria::withSum('material as cantidad_materiales', 'cantidad')->get()
+      Categoria::withSum('materiales as cantidad_materiales', 'cantidad')
+        ->get()
     );
   }
 

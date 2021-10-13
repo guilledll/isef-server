@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Categoria;
 
-use App\Rules\VerificarDeposito;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDepositoRequest extends FormRequest
+class StoreCategoriaRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -24,11 +23,8 @@ class StoreDepositoRequest extends FormRequest
    */
   public function rules()
   {
-    $dep = $this->input('departamento_id');
-
     return [
-      'departamento_id' => ['required', 'integer', 'exists:departamentos,id'],
-      'nombre' => ['required', new VerificarDeposito($dep)]
+      'nombre' => 'required|unique:categorias|max:50'
     ];
   }
 }

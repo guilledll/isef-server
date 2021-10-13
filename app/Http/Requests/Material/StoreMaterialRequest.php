@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Material;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCategoriaRequest extends FormRequest
+class StoreMaterialRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -24,7 +24,9 @@ class StoreCategoriaRequest extends FormRequest
   public function rules()
   {
     return [
-      'nombre' => 'required|unique:categorias|max:50'
-    ];
+      /*'nombre' => 'required',
+            'deposito_id' => 'required',
+            'categoria_id' => 'required',
+            'cantidad' => 'required' */];
   }
 }

@@ -15,9 +15,8 @@ class Categoria extends Model
     'nombre'
   ];
 
-  /** Categoría(id)->Materiales(categoria_id) (1:N)
-   * Obtiene los materiales de esta categoria. */
-  public function material()
+  /** Categoría -> Materiales (1:N) */
+  public function materiales()
   {
     return $this->hasMany(Material::class);
   }

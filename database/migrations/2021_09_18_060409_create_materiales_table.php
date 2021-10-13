@@ -18,8 +18,7 @@ class CreateMaterialesTable extends Migration
       $table->string('nombre', 50);
       $table->unsignedBigInteger('deposito_id');
       $table->unsignedBigInteger('categoria_id');
-      $table->Integer('cantidad');
-
+      $table->integer('cantidad');
 
       /** Clave foranea a la tabla Depósito */
       $table->foreign('deposito_id')

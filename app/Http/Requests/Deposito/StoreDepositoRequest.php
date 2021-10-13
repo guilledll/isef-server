@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Deposito;
 
+use App\Rules\VerificarDeposito;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMaterialRequest extends FormRequest
+class StoreDepositoRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -23,10 +24,11 @@ class StoreMaterialRequest extends FormRequest
    */
   public function rules()
   {
+    $dep = $this->input('departamento_id');
+
     return [
-      /*'nombre' => 'required',
-            'deposito_id' => 'required',
-            'categoria_id' => 'required',
-            'cantidad' => 'required' */];
+      'departamento_id' => ['required', 'integer', 'exists:departamentos,id'],
+      'nombre' => ['required', new VerificarDeposito($dep)]
+    ];
   }
 }
