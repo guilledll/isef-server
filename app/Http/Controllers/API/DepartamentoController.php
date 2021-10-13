@@ -33,7 +33,7 @@ class DepartamentoController extends Controller
     $departamento->nombre = $request->nombre;
     $departamento->save();
 
-    return response()->json(['message' => 'Sede registrada con éxito!'], 200);
+    return response($departamento);
   }
 
   /**

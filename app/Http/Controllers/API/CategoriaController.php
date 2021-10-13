@@ -34,7 +34,7 @@ class CategoriaController extends Controller
     $categoria->nombre = $request->nombre;
     $categoria->save();
 
-    return response()->json(['message' => 'Categoría registrada con éxito!'], 200);
+    return response($categoria);
   }
 
   /**
@@ -64,7 +64,7 @@ class CategoriaController extends Controller
     return response()->json(['message' => 'Categoría modificada con éxito!'], 200);
   }
 
-  /**  
+  /**
    * Remove the specified resource from storage.
    *
    * @param  \App\Models\Categoria  $departamento

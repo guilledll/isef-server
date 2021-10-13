@@ -11,8 +11,8 @@ class DepositoController extends Controller
 {
   /**
    * Asigna la respectiva "Policy" a cada función:
-   * 
-   * @return \App\Policies\DepositoPolicy 
+   *
+   * @return \App\Policies\DepositoPolicy
    */
   public function __construct()
   {
@@ -46,7 +46,7 @@ class DepositoController extends Controller
     $deposito->departamento_id = $request->departamento_id;
     $deposito->save();
 
-    return response()->json(['message' => 'Depósito registrado con éxito!'], 200);
+    return response($deposito);
   }
 
   /**
