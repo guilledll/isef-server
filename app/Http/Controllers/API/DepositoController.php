@@ -6,7 +6,6 @@ use App\Models\Deposito;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Deposito\StoreDepositoRequest;
 use App\Http\Resources\DepositoResource;
-use Illuminate\Support\Facades\DB;
 
 class DepositoController extends Controller
 {

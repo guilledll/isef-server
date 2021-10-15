@@ -3,13 +3,22 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Categoria;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Categoria\StoreCategoriaRequest;
 use App\Http\Resources\CategoriaResource;
 
 class CategoriaController extends Controller
 {
+  /**
+   * Asigna la respectiva "Policy" a cada función:
+   * 
+   * @return \App\Policies\CategoriaPolicy 
+   */
+  public function __construct()
+  {
+    $this->authorizeResource(Categoria::class, 'categoria');
+  }
+
   /**
    * Display a listing of the resource.
    *
@@ -44,9 +53,9 @@ class CategoriaController extends Controller
    * @param  \App\Models\Categoria  $categoria
    * @return \Illuminate\Http\Response
    */
-  public function show(Categoria $departamento)
+  public function show(Categoria $categoria)
   {
-    //
+    return new CategoriaResource($categoria);
   }
 
   /**
@@ -68,11 +77,13 @@ class CategoriaController extends Controller
   /**
    * Remove the specified resource from storage.
    *
-   * @param  \App\Models\Categoria  $departamento
+   * @param  \App\Models\Categoria  $categoria
    * @return \Illuminate\Http\Response
    */
   public function destroy(Categoria $categoria)
   {
-    //
+    $categoria->delete();
+
+    return response()->json(['message' => 'Categoría eliminada con éxito!'], 200);
   }
 }
