@@ -16,12 +16,7 @@ class CreateDepositosTable extends Migration
     Schema::create('depositos', function (Blueprint $table) {
       $table->bigIncrements('id');
       $table->string('nombre', 50);
-      $table->unsignedBigInteger('departamento_id');
-
-      /** Claves referencia a la tabla Departamento */
-      $table->foreign('departamento_id')
-        ->references('id')->on('departamentos')
-        ->onDelete('cascade');
+      $table->foreignId('departamento_id')->constrained();
     });
   }
 

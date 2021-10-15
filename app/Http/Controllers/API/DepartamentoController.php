@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Departamento;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Departamento\StoreDepartamentoRequest;
 use App\Http\Resources\DepartamentoResource;
@@ -17,7 +16,11 @@ class DepartamentoController extends Controller
    */
   public function index()
   {
-    return DepartamentoResource::collection(Departamento::all());
+    return DepartamentoResource::collection(
+      Departamento::withCount('users')
+        ->withCount('depositos')
+        ->get()
+    );
   }
 
   /**
@@ -33,7 +36,7 @@ class DepartamentoController extends Controller
     $departamento->nombre = $request->nombre;
     $departamento->save();
 
-    return response()->json(['message' => 'Sede registrada con éxito!'], 200);
+    return response($departamento);
   }
 
   /**
@@ -54,10 +57,15 @@ class DepartamentoController extends Controller
    * @param  \App\Models\Departamento  $departamento
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Departamento $departamento)
+  public function update(StoreDepartamentoRequest $request, Departamento $departamento)
   {
-    //
+    $departamento->update([
+      'nombre' => $request->nombre,
+    ]);
+
+    return response()->json(['message' => 'Departamento modificado con éxito!'], 200);
   }
+
 
   /**
    * Remove the specified resource from storage.
@@ -67,6 +75,8 @@ class DepartamentoController extends Controller
    */
   public function destroy(Departamento $departamento)
   {
-    //
+    $departamento->delete();
+
+    return response()->json(['message' => 'Departamento eliminado con éxito!'], 200);
   }
 }

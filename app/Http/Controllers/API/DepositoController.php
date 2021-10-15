@@ -11,8 +11,8 @@ class DepositoController extends Controller
 {
   /**
    * Asigna la respectiva "Policy" a cada función:
-   * 
-   * @return \App\Policies\DepositoPolicy 
+   *
+   * @return \App\Policies\DepositoPolicy
    */
   public function __construct()
   {
