@@ -10,6 +10,16 @@ use App\Http\Resources\DepartamentoResource;
 class DepartamentoController extends Controller
 {
   /**
+   * Asigna la respectiva "Policy" a cada función:
+   * 
+   * @return \App\Policies\DepartamentoPolicy 
+   */
+  public function __construct()
+  {
+    $this->authorizeResource(Departamento::class, 'departamento');
+  }
+
+  /**
    * Display a listing of the resource.
    *
    * @return \Illuminate\Http\Response
@@ -31,7 +41,6 @@ class DepartamentoController extends Controller
    */
   public function store(StoreDepartamentoRequest $request)
   {
-
     $departamento = new Departamento();
     $departamento->nombre = $request->nombre;
     $departamento->save();

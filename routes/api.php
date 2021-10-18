@@ -22,5 +22,6 @@ Route::group(['prefix' => 'v1'], function () {
     ]);
   });
 
-  Route::get('/departamentos', [DepartamentoController::class, 'index'])->withoutMiddleware('auth:sanctum');
+  Route::get('/departamentos', [DepartamentoController::class, 'index'])
+    ->withoutMiddleware('auth:sanctum');
 });
