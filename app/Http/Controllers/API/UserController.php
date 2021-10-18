@@ -7,7 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class   UserController extends Controller
 {
   /**
    * Muestra todos los usuarios
@@ -42,14 +42,27 @@ class UserController extends Controller
     //
   }
 
+  public function updateRol(Request $request, $ci)
+  {
+    $usuario = User::findOrFail($ci);
+    $usuario->update([
+      'rol' => $request->rol
+    ]);
+
+    return response()->json(['message' => 'Rol modificado con éxito!'], 200);
+  }
+
   /**
    * Remove the specified resource from storage.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy($ci)
   {
-    //
+    $usuario = User::findOrFail($ci);
+    $usuario->delete();
+
+    return response()->json(['message' => 'Usuario eliminado con éxito!'], 200);
   }
 }
