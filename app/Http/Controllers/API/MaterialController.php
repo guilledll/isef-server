@@ -49,7 +49,7 @@ class MaterialController extends Controller
       $inventario->fecha = now();
       $inventario->save();
     }
-  
+
     return response()->json(['message' => 'Material agregado con éxito!'], 200);
   }
 
