@@ -35,7 +35,7 @@ class MaterialController extends Controller
 
       $material = new Material();
       $material->nombre = $data['nombre'];
-      $material->deposito_id = $data['deposito_id'];
+      $material->deposito_id = $request->deposito;
       $material->categoria_id = $data['categoria_id'];
       $material->cantidad = $data['cantidad'];
 
