@@ -49,8 +49,7 @@ class MaterialController extends Controller
       $inventario->fecha = now();
       $inventario->save();
     }
-
-    return response()->json(['message' => 'Material agregado con éxito!'], 200);
+    return response($material);
   }
 
   /**
@@ -81,10 +80,12 @@ class MaterialController extends Controller
    * @param  \App\Models\Material  $material
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Material $material)
+  public function destroy($id)
   {
-    $this->authorize('delete', $material);
-
-    return response()->json($material->delete());
+    //$this->authorize('delete', $material);
+    Material::findOrFail($id)->delete();
+    //$id->delete();
+    //return response()->json($material->delete());
+    return response()->json(['message' => 'Material eliminado con éxito!'], 200);
   }
 }
