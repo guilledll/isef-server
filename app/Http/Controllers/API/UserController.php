@@ -44,6 +44,16 @@ class   UserController extends Controller
     //
   }
 
+  public function updateRol(Request $request, $ci)
+  {
+    $usuario = User::findOrFail($ci);
+    $usuario->update([
+      'rol' => $request->rol
+    ]);
+
+    return response()->json(['message' => 'Rol modificado con éxito!'], 200);
+  }
+
   /**
    * Actualiza el rol de un usuario
    *
