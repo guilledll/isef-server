@@ -35,7 +35,7 @@ class MaterialController extends Controller
 
       $material = new Material();
       $material->nombre = $data['nombre'];
-      $material->deposito_id = $data['deposito_id'];
+      $material->deposito_id = $request->deposito;
       $material->categoria_id = $data['categoria_id'];
       $material->cantidad = $data['cantidad'];
 
@@ -49,22 +49,7 @@ class MaterialController extends Controller
       $inventario->fecha = now();
       $inventario->save();
     }
-    /*
-      $material = new Material();
-      $material->nombre = $request->materiales;
-      $material->deposito_id = $request->deposito_id;
-      $material->categoria_id = $request->categoria_id;
-      $material->cantidad = $request->cantidad;
-      $material->save();
-
-      //Agregar al inventario.
-      $inventario = new Inventario();
-      $inventario->user_ci = $request->user()->ci;
-      $inventario->cantidad = $request->cantidad;
-      $inventario->accion = "Alta";
-      $inventario->fecha = now();
-      $material->Inventario()->save($inventario);
-    */
+  
     return response()->json(['message' => 'Material agregado con éxito!'], 200);
   }
 

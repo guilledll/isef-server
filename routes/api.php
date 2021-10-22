@@ -10,8 +10,11 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
-  Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', AuthController::class);
+  Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+
+    Route::get('/user', AuthController::class)->withoutMiddleware('verified');
+    Route::put('/users/{user}/rol', [UserController::class, 'updateRol']);
+
     Route::apiResources([
       'users' => UserController::class,
       'departamentos' => DepartamentoController::class,
@@ -23,5 +26,6 @@ Route::group(['prefix' => 'v1'], function () {
   });
 
   Route::get('/departamentos', [DepartamentoController::class, 'index'])
-    ->withoutMiddleware('auth:sanctum');
+    ->withoutMiddleware('auth:sanctum')
+    ->withoutMiddleware('verified');
 });
