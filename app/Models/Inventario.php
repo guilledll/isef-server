@@ -25,7 +25,7 @@ class Inventario extends Model
   /**  Inventario -> Materiales (1:1) */
   public function material()
   {
-    return $this->hasOne(Material::class);
+    return $this->belongsTo(Material::class);
   }
 
   /**  Inventario -> User (1:1) */
