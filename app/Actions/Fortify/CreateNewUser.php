@@ -2,8 +2,10 @@
 
 namespace App\Actions\Fortify;
 
+use App\Mail\NuevoIngresoMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
@@ -29,7 +31,7 @@ class CreateNewUser implements CreatesNewUsers
       'password' => $this->passwordRules(),
     ])->validate();
 
-    return User::create([
+    $user = User::create([
       'ci' => $input['ci'],
       'nombre' => $input['nombre'],
       'apellido' => $input['apellido'],
@@ -39,5 +41,16 @@ class CreateNewUser implements CreatesNewUsers
       'password' => Hash::make($input['password']),
       'rol' => 0, // 0 => Por verificar // 1 => Usuario // 2 => Guardia // 3 => Admin
     ]);
+
+    $admins = User::where([
+      ['departamento_id', $input['departamento']], ['rol', 3]
+    ])->limit(6)->get('correo');
+
+    foreach ($admins as $admin) {
+      Mail::to($admin->correo)
+        ->send(new NuevoIngresoMail($user, url(env('SPA_URL') . '/usuarios')));
+    }
+
+    return $user;
   }
 }
