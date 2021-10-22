@@ -70,22 +70,9 @@ class MaterialController extends Controller
    * @param  \App\Models\Material  $material
    * @return \Illuminate\Http\Response
    */
-  /*
   public function update(Request $request, Material $material)
   {
-  }*/
-  public function update(Request $request, $id)
-  {
-    Material::findOrFail($id)->update([
-      'nombre' => $request->nombre,
-      'categoria_id' => $request->categoria_id,
-      'deposito_id' => $request->deposito_id,
-      'cantidad' => $request->cantidad,
-    ]);;
-
-    return response()->json(['message' => 'Material modificado con éxito!'], 200);
   }
-
 
   /**
    * Remove the specified resource from storage.
@@ -95,9 +82,10 @@ class MaterialController extends Controller
    */
   public function destroy($id)
   {
-    /* Los materiales registrados no se borran.
+    //$this->authorize('delete', $material);
     Material::findOrFail($id)->delete();
+    //$id->delete();
+    //return response()->json($material->delete());
     return response()->json(['message' => 'Material eliminado con éxito!'], 200);
-    */
   }
 }
