@@ -28,6 +28,12 @@ class Inventario extends Model
     return $this->belongsTo(Material::class);
   }
 
+  /**  Inventario -> Deposito (1:1) */
+  public function deposito()
+  {
+    return $this->belongsTo(Deposito::class);
+  }
+
   /**  Inventario -> User (1:1) */
   public function user()
   {
