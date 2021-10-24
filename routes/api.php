@@ -7,6 +7,7 @@ use App\Http\Controllers\API\CategoriaController;
 use App\Http\Controllers\API\DepositoController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\AuthController;
+use App\Models\Departamento;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
@@ -14,6 +15,9 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::get('/user', AuthController::class)->withoutMiddleware('verified');
     Route::put('/users/{user}/rol', [UserController::class, 'updateRol']);
+
+    Route::get('departamentos/{id}/depositos', [DepartamentoController::class, 'depositos']);
+    Route::get('departamentos/{id}/usuarios', [DepartamentoController::class, 'usuarios']);
 
     Route::apiResources([
       'users' => UserController::class,

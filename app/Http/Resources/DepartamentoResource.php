@@ -14,6 +14,14 @@ class DepartamentoResource extends JsonResource
    */
   public function toArray($request)
   {
-    return parent::toArray($request);
+    $users_count = isset($this->resource->users_count);
+    $depositos_count = isset($this->resource->depositos_count);
+
+    return [
+      'id' => $this->id,
+      'nombre' => $this->nombre,
+      'users_count' => $this->when($users_count, $this->users_count),
+      'depositos_count' => $this->when($depositos_count, $this->depositos_count),
+    ];
   }
 }

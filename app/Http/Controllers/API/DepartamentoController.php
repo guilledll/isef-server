@@ -6,6 +6,8 @@ use App\Models\Departamento;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Departamento\StoreDepartamentoRequest;
 use App\Http\Resources\DepartamentoResource;
+use App\Models\Deposito;
+use App\Models\User;
 
 class DepartamentoController extends Controller
 {
@@ -29,8 +31,20 @@ class DepartamentoController extends Controller
     return DepartamentoResource::collection(
       Departamento::withCount('users')
         ->withCount('depositos')
+        ->orderBy('users_count', 'desc')
         ->get()
     );
+  }
+
+  /**
+   * Display the specified resource.
+   *
+   * @param  \App\Models\Departamento  $departamento
+   * @return \Illuminate\Http\Response
+   */
+  public function show(Departamento $departamento)
+  {
+    return new DepartamentoResource($departamento);
   }
 
   /**
@@ -46,17 +60,6 @@ class DepartamentoController extends Controller
     $departamento->save();
 
     return response($departamento);
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Models\Departamento  $departamento
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Departamento $departamento)
-  {
-    return new DepartamentoResource($departamento);
   }
 
   /**
@@ -87,5 +90,35 @@ class DepartamentoController extends Controller
     $departamento->delete();
 
     return response()->json(['message' => 'Departamento eliminado con éxito!'], 200);
+  }
+
+  /**
+   * Devuelve los depositos de ese departamento
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function depositos($id)
+  {
+    $depositos = Deposito::where('departamento_id', $id)
+      ->withCount('materiales')
+      ->get();
+
+    return response()->json($depositos);
+  }
+
+  /**
+   * Devuelve los usuarios de ese departamento
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function usuarios($id)
+  {
+    $usuarios = User::where('departamento_id', $id)
+      ->select('nombre', 'apellido', 'ci', 'telefono')
+      ->get();
+
+    return response()->json($usuarios);
   }
 }

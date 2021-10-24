@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Departamento;
+use App\Models\Material;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DepartamentoFactory extends Factory
+class MaterialFactory extends Factory
 {
   /**
    * The name of the factory's corresponding model.
    *
    * @var string
    */
-  protected $model = Departamento::class;
+  protected $model = Material::class;
 
   /**
    * Define the model's default state.
@@ -22,7 +22,10 @@ class DepartamentoFactory extends Factory
   public function definition()
   {
     return [
-      'nombre' => $this->faker->text(rand(5, 20))
+      'nombre' => $this->faker->words(rand(1, 3), true),
+      'deposito_id' => rand(1, 20),
+      'categoria_id' => rand(1, 12),
+      'cantidad' => rand(0, 25),
     ];
   }
 }

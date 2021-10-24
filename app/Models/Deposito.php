@@ -14,11 +14,13 @@ class Deposito extends Model
   protected $fillable = [
     'nombre',
   ];
+
   /**  Depósitos -> Departamento (N:1) */
   public function departamento()
   {
     return $this->belongsTo(Departamento::class);
   }
+
   /**  Depósitos -> Materiales (1:N) */
   public function materiales()
   {
