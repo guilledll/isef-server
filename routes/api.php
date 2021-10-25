@@ -7,7 +7,6 @@ use App\Http\Controllers\API\CategoriaController;
 use App\Http\Controllers\API\DepositoController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\AuthController;
-use App\Models\Departamento;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
@@ -24,7 +23,7 @@ Route::group(['prefix' => 'v1'], function () {
       'departamentos' => DepartamentoController::class,
       'depositos' => DepositoController::class,
       'categorias' => CategoriaController::class,
-      'materiales' => MaterialController::class,
+      'material' => MaterialController::class,
       'inventario' => InventarioController::class
     ]);
   });

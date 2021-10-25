@@ -75,7 +75,7 @@ class DepartamentoController extends Controller
       'nombre' => $request->nombre,
     ]);
 
-    return response()->json(['message' => 'Departamento modificado con éxito!'], 200);
+    return response()->json($departamento);
   }
 
 

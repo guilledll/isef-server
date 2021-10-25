@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use Carbon\Carbon;
 use App\Models\Material;
 use App\Models\Inventario;
 use Illuminate\Http\Request;
@@ -19,7 +18,7 @@ class MaterialController extends Controller
    */
   public function index()
   {
-    return MaterialResource::collection(Material::all());
+    return MaterialResource::collection(Material::with('deposito', 'categoria')->get());
   }
 
   /**
