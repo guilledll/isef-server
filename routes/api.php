@@ -18,6 +18,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('departamentos/{id}/depositos', [DepartamentoController::class, 'depositos']);
     Route::get('departamentos/{id}/usuarios', [DepartamentoController::class, 'usuarios']);
 
+    Route::get('depositos/{id}/materiales', [DepositoController::class, 'materiales']);
+
     Route::apiResources([
       'users' => UserController::class,
       'departamentos' => DepartamentoController::class,
