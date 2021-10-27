@@ -15,12 +15,19 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/user', AuthController::class)->withoutMiddleware('verified');
     Route::put('/users/{user}/rol', [UserController::class, 'updateRol']);
 
+    Route::get('departamentos/{id}/depositos', [DepartamentoController::class, 'depositos']);
+    Route::get('departamentos/{id}/usuarios', [DepartamentoController::class, 'usuarios']);
+
+    Route::get('depositos/{id}/materiales', [DepositoController::class, 'materiales']);
+
+    Route::get('categorias/{id}/materiales', [CategoriaController::class, 'materiales']);
+
     Route::apiResources([
       'users' => UserController::class,
       'departamentos' => DepartamentoController::class,
       'depositos' => DepositoController::class,
       'categorias' => CategoriaController::class,
-      'materiales' => MaterialController::class,
+      'material' => MaterialController::class,
       'inventario' => InventarioController::class
     ]);
   });

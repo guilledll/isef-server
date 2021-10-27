@@ -22,7 +22,8 @@ class DepositoFactory extends Factory
   public function definition()
   {
     return [
-      'nombre' => $this->faker->realText(10)
+      'departamento_id' => rand(1, 17),
+      'nombre' => $this->faker->city(),
     ];
   }
 }

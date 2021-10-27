@@ -6,6 +6,8 @@ use App\Models\Deposito;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Deposito\StoreDepositoRequest;
 use App\Http\Resources\DepositoResource;
+use App\Http\Resources\MaterialResource;
+use App\Models\Material;
 
 class DepositoController extends Controller
 {
@@ -73,7 +75,7 @@ class DepositoController extends Controller
       'nombre' => $request->nombre
     ]);
 
-    return response()->json(['message' => 'Depósito modificado con éxito!'], 200);
+    return response()->json($deposito);
   }
 
   /**
@@ -93,5 +95,21 @@ class DepositoController extends Controller
     $deposito->delete();
 
     return response()->json(['message' => 'Depósito eliminado con éxito!'], 200);
+  }
+
+  /**
+   * Devuelve los materiales de ese deposito
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function materiales($id)
+  {
+    $materiales = Material::where('deposito_id', $id)
+      ->with(['categoria', 'deposito'])
+      ->orderBy('nombre', 'asc')
+      ->get();
+
+    return MaterialResource::collection($materiales);
   }
 }

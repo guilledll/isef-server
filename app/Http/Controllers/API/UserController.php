@@ -18,7 +18,11 @@ class   UserController extends Controller
    */
   public function index()
   {
-    return UserResource::collection(User::with('departamento')->get());
+    return UserResource::collection(
+      User::with('departamento')
+        ->orderBy('rol', 'asc')
+        ->get()
+    );
   }
 
   /**
@@ -42,16 +46,6 @@ class   UserController extends Controller
   public function update(Request $request, $id)
   {
     //
-  }
-
-  public function updateRol(Request $request, $ci)
-  {
-    $usuario = User::findOrFail($ci);
-    $usuario->update([
-      'rol' => $request->rol
-    ]);
-
-    return response()->json(['message' => 'Rol modificado con éxito!'], 200);
   }
 
   /**

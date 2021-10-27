@@ -6,6 +6,8 @@ use App\Models\Categoria;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Categoria\StoreCategoriaRequest;
 use App\Http\Resources\CategoriaResource;
+use App\Http\Resources\MaterialResource;
+use App\Models\Material;
 
 class CategoriaController extends Controller
 {
@@ -71,7 +73,7 @@ class CategoriaController extends Controller
       'nombre' => $request->nombre,
     ]);
 
-    return response()->json(['message' => 'Categoría modificada con éxito!'], 200);
+    return response()->json($categoria);
   }
 
   /**
@@ -85,5 +87,21 @@ class CategoriaController extends Controller
     $categoria->delete();
 
     return response()->json(['message' => 'Categoría eliminada con éxito!'], 200);
+  }
+
+  /**
+   * Devuelve los materiales de esa categoria
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function materiales($id)
+  {
+    $materiales = Material::where('categoria_id', $id)
+      ->with(['deposito', 'categoria'])
+      ->orderBy('nombre', 'asc')
+      ->get();
+
+    return MaterialResource::collection($materiales);
   }
 }
