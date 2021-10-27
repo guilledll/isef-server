@@ -20,7 +20,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::get('depositos/{id}/materiales', [DepositoController::class, 'materiales']);
 
-    Route::get('material/{id}/movimientos', [MaterialController::class, 'movimientos']);
+    Route::get('categorias/{id}/materiales', [CategoriaController::class, 'materiales']);
 
     Route::apiResources([
       'users' => UserController::class,

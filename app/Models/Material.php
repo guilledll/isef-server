@@ -26,7 +26,7 @@ class Material extends Model
   /**Material -> Categoria (1:1) */
   public function categoria()
   {
-    return $this->belongsTo(Categoria::class, "categoria_id", "id");
+    return $this->belongsTo(Categoria::class);
   }
   /**  Material -> Inventario (1:1) */
   public function inventario()

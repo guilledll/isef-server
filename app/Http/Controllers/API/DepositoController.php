@@ -106,11 +106,10 @@ class DepositoController extends Controller
   public function materiales($id)
   {
     $materiales = Material::where('deposito_id', $id)
-      ->with('categoria')
+      ->with(['categoria', 'deposito'])
       ->orderBy('nombre', 'asc')
       ->get();
 
     return MaterialResource::collection($materiales);
-    // return response()->json($materiales);
   }
 }
