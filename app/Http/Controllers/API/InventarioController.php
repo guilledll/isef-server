@@ -16,7 +16,7 @@ class InventarioController extends Controller
    */
   public function index()
   {
-    return InventarioResource::collection(Inventario::all());
+    return InventarioResource::collection(Inventario::with(['deposito', 'material'])->get());
   }
 
   /**
