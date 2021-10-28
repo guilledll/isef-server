@@ -87,4 +87,19 @@ class MaterialController extends Controller
     //return response()->json($material->delete());
     return response()->json(['message' => 'Material eliminado con éxito!'], 200);
   }
+  /**
+   * Devuelve los movimientos de ese material
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function movimientos($id)
+  {
+    $movimientos = Inventario::where('material_id', $id)
+      ->with('deposito')
+      ->orderBy('fecha', 'asc')
+      ->get();
+
+    return MaterialResource::collection($movimientos);
+  }
 }
