@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1'], function () {
   Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
+
+    Route::get('material/{id}/movimientos', [MaterialController::class, 'movimientos']);
+
     Route::get('/user', AuthController::class)->withoutMiddleware('verified');
     Route::put('/users/{user}/rol', [UserController::class, 'updateRol']);
 

@@ -15,13 +15,13 @@ class InventarioResource extends JsonResource
   public function toArray($request)
   {
     return [
-      'material_id' => $this->material->nombre,
-      'material' => $this->material->nombre,
+      //  'material_id' => $this->material->id,
+      //  'material' => $this->material->nombre,
       'user_ci' => $this->user_ci,
       'cantidad' => $this->cantidad,
       'accion' => $this->accion,
       'fecha' => $this->fecha->format('d-m-Y'),
-      'deposito' => $this->deposito->nombre,
+      //  'deposito' => $this->deposito->nombre,
     ];
   }
 }

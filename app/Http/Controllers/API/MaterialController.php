@@ -7,6 +7,7 @@ use App\Models\Inventario;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MaterialResource;
+use App\Http\Resources\InventarioResource;
 use App\Http\Requests\Material\StoreMaterialRequest;
 
 class MaterialController extends Controller
@@ -42,7 +43,7 @@ class MaterialController extends Controller
       $inventario->material_id = $material->id;
       $inventario->user_ci = $request->usuario_ci;
       $inventario->cantidad = $data['cantidad'];
-      $inventario->accion = "Alta";
+      $inventario->accion = 1;
       $inventario->fecha = now();
       $inventario->save();
     }
@@ -94,10 +95,10 @@ class MaterialController extends Controller
   public function movimientos($id)
   {
     $movimientos = Inventario::where('material_id', $id)
-      ->with('deposito')
+      //  ->with(['deposito', 'material'])
       ->orderBy('fecha', 'asc')
       ->get();
 
-    return MaterialResource::collection($movimientos);
+    return InventarioResource::collection($movimientos);
   }
 }

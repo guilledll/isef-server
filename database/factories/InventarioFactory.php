@@ -15,6 +15,7 @@ class InventarioFactory extends Factory
    */
   protected $model = Inventario::class;
 
+
   /**
    * Define the model's default state.
    *
@@ -29,7 +30,7 @@ class InventarioFactory extends Factory
       'material_id' => rand(1, 100),
       'deposito_id' => rand(1, 30),
       'cantidad' => rand(-10, 10),
-      'accion' => rand(0, 1) ? 'Alta' : 'Baja',
+      'accion' => rand(0, 1),
       'fecha' => $this->faker->dateTimeBetween('-2 months')
     ];
   }
