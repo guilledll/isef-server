@@ -21,6 +21,7 @@ class MaterialResource extends JsonResource
       'id' => $this->id,
       'nombre' => $this->nombre,
       'deposito' => $this->deposito->nombre,
+      'deposito_id' => $this->deposito->id,
       'categoria' => $this->categoria->nombre,
       'categoria_id' => $this->categoria->id,
       'cantidad' => $this->cantidad,

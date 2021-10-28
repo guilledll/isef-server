@@ -70,6 +70,40 @@ class MaterialController extends Controller
    */
   public function update(Request $request, Material $material)
   {
+
+    $material = Material::findOrFail($request->id);
+
+    //Agrega a inventario
+    if ($material->cantidad < $request->cantidad) {
+
+      $inventario = new Inventario();
+      $inventario->material_id = $request->id;
+      $inventario->user_ci = $request->usuario_ci;
+      $inventario->cantidad = abs($material->cantidad - $request->cantidad);
+      $inventario->deposito_id = $request->deposito_id;
+      $inventario->accion = 1;
+      $inventario->fecha = now();
+      $inventario->save();
+    } else {
+
+      $inventario = new Inventario();
+      $inventario->material_id = $request->id;
+      $inventario->user_ci = $request->usuario_ci;
+      $inventario->deposito_id = $request->deposito_id;
+      $inventario->cantidad = ($material->cantidad - $request->cantidad);
+      $inventario->accion = 0;
+      $inventario->fecha = now();
+      $inventario->save();
+    }
+    //Actualiza material
+    $material->update([
+      'nombre' => $request->nombre,
+      'deposito_id' => $request->deposito_id,
+      'categoria_id' => $request->categoria_id,
+      'cantidad' => $request->cantidad,
+    ]);
+
+    return response()->json(['message' => 'Material modificado con éxito!'], 200);
   }
 
   /**
