@@ -29,7 +29,6 @@ class MaterialController extends Controller
    */
   public function store(StoreMaterialRequest $request)
   {
-
     foreach ($request->materiales as $data) {
 
       $material = new Material();
@@ -37,7 +36,6 @@ class MaterialController extends Controller
       $material->deposito_id = $request->deposito;
       $material->categoria_id = $data['categoria_id'];
       $material->cantidad = $data['cantidad'];
-
       $material->save();
 
       $inventario = new Inventario();

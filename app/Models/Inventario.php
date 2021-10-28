@@ -13,6 +13,8 @@ class Inventario extends Model
 
   protected $fillable = [
     'user_ci',
+    'deposito_id',
+    'material_id',
     'cantidad',
     'accion',
     'fecha'
