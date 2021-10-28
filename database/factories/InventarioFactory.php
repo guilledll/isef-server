@@ -23,12 +23,13 @@ class InventarioFactory extends Factory
    */
   public function definition()
   {
-    $user = DB::table('users')->inRandomOrder()->first();
+    $user = DB::table('users')->where('rol', 3)->inRandomOrder()->first();
+    $material = DB::table('materiales')->inRandomOrder()->first();
 
     return [
       'user_ci' => $user->ci,
-      'material_id' => rand(1, 100),
-      'deposito_id' => rand(1, 30),
+      'material_id' => $material->id,
+      'deposito_id' => $material->deposito_id,
       'cantidad' => rand(-10, 10),
       'accion' => rand(0, 1),
       'fecha' => $this->faker->dateTimeBetween('-2 months')
