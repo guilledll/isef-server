@@ -90,7 +90,7 @@ class MaterialController extends Controller
       $inventario->material_id = $request->id;
       $inventario->user_ci = $request->usuario_ci;
       $inventario->deposito_id = $request->deposito_id;
-      $inventario->cantidad = ($material->cantidad - $request->cantidad);
+      $inventario->cantidad = abs($material->cantidad - $request->cantidad);
       $inventario->accion = 0;
       $inventario->fecha = now();
       $inventario->save();
@@ -103,7 +103,7 @@ class MaterialController extends Controller
       'cantidad' => $request->cantidad,
     ]);
 
-    return response()->json(['message' => 'Material modificado con éxito!'], 200);
+    return new MaterialResource($material);
   }
 
   /**

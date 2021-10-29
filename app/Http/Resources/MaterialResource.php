@@ -14,8 +14,6 @@ class MaterialResource extends JsonResource
    */
   public function toArray($request)
   {
-    //$categoria_nombre = isset($this->resource->categoria);
-    //$categoria_id = isset($this->resource->categoria);
 
     return [
       'id' => $this->id,
