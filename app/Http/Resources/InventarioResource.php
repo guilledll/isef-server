@@ -22,6 +22,8 @@ class InventarioResource extends JsonResource
       'accion' => $this->accion,
       'fecha' => $this->fecha->format('d-m-Y'),
       'deposito' => $this->deposito->nombre,
+      'deposito_id' => $this->deposito->id,
+      'nota' => $this->nota,
     ];
   }
 }

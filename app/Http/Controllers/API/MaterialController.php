@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MaterialResource;
 use App\Http\Resources\InventarioResource;
 use App\Http\Requests\Material\StoreMaterialRequest;
+use Illuminate\Support\Facades\DB;
 
 class MaterialController extends Controller
 {
@@ -30,26 +31,33 @@ class MaterialController extends Controller
    */
   public function store(StoreMaterialRequest $request)
   {
+    $inventarios = array();
+
     foreach ($request->materiales as $data) {
 
-      $material = new Material();
-      $material->nombre = $data['nombre'];
-      $material->deposito_id = $data['deposito_id'];
-      $material->categoria_id = $data['categoria_id'];
-      $material->cantidad = $data['cantidad'];
-      $material->save();
+      $material = Material::updateOrCreate(
+        [
+          'nombre' => $data['nombre'],
+          'deposito_id' => $data['deposito_id'],
+          'categoria_id' => $data['categoria_id']
+        ],
+        ['cantidad' => DB::raw('cantidad + ' . $data['cantidad'])]
+      );
 
-      $inventario = new Inventario();
-      $inventario->material_id = $material->id;
-      $inventario->user_ci = $request->usuario_ci;
-      $inventario->deposito_id = $data['deposito_id'];
-      $inventario->cantidad = $data['cantidad'];
-      $inventario->accion = 1;
-      $inventario->fecha = now();
-      $inventario->save();
+      array_push($inventarios, [
+        'material_id' => $material->id,
+        'user_ci' => $request->usuario_ci,
+        'deposito_id' => $data['deposito_id'],
+        'cantidad' => $data['cantidad'],
+        'accion' => 1,
+        'nota' => $data['nota'],
+        'fecha' => now(),
+      ]);
     }
 
-    return response($material);
+    DB::table('inventarios')->insert($inventarios);
+
+    return response()->json(['message' => 'Materiales agregados con éxito']);
   }
 
   /**
