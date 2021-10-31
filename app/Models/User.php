@@ -46,4 +46,10 @@ class User extends Authenticatable implements MustVerifyEmail
   {
     return $this->hasMany(Inventario::class, "user_ci", "ci");
   }
+
+  /** User -> Reservas (1:N) */
+  public function reservas()
+  {
+    return $this->hasMany(Reserva::class);
+  }
 }
