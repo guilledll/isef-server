@@ -24,9 +24,10 @@ class StoreMaterialRequest extends FormRequest
   public function rules()
   {
     return [
-      /*'nombre' => 'required',
-            'deposito_id' => 'required',
-            'categoria_id' => 'required',
-            'cantidad' => 'required' */];
+      // 'nombre' => 'required',
+      // 'deposito_id' => 'required',
+      // 'categoria_id' => 'required',
+      // 'cantidad' => 'required'
+    ];
   }
 }

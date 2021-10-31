@@ -32,7 +32,8 @@ class InventarioFactory extends Factory
       'deposito_id' => $material->deposito_id,
       'cantidad' => rand(-10, 10),
       'accion' => rand(0, 1),
-      'fecha' => $this->faker->dateTimeBetween('-2 months')
+      'fecha' => $this->faker->dateTimeBetween('-2 months'),
+      'nota' => rand(0, 1) ? $this->faker->text(rand(10, 200)) : ''
     ];
   }
 }

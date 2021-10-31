@@ -16,7 +16,10 @@ class InventarioController extends Controller
    */
   public function index()
   {
-    return InventarioResource::collection(Inventario::with(['deposito', 'material'])->orderBy('fecha', 'DESC')->get());
+    return InventarioResource::collection(
+      Inventario::with(['deposito', 'material'])
+        ->orderBy('fecha', 'DESC')->get()
+    );
   }
 
   /**

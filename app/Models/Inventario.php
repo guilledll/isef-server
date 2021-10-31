@@ -17,7 +17,8 @@ class Inventario extends Model
     'material_id',
     'cantidad',
     'accion',
-    'fecha'
+    'fecha',
+    'nota'
   ];
 
   protected $casts = [
