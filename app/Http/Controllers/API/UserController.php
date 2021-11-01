@@ -70,7 +70,7 @@ class   UserController extends Controller
         );
     }
 
-    return response()->json(['message' => 'Rol modificado con éxito!'], 200);
+    return new UserResource($user);
   }
 
   /**
