@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MaterialReservado extends Model
+class MaterialesReservados extends Model
 {
   use HasFactory;
 
@@ -20,5 +20,4 @@ class MaterialReservado extends Model
   {
     return $this->belongsTo(Reserva::class);
   }
-
 }

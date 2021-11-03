@@ -7,20 +7,34 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reserva extends Model
 {
-  public $table = "reservas";
-  public $timestamps = false;
   use HasFactory;
 
   protected $fillable = [
+    'user_ci',
+    'guardia_ci',
+    'inicio',
+    'fin',
     'lugar',
     'razon',
     'estado',
-    'Notas_guardia'
+    'nota_guardia',
+    'nota_usuario',
+  ];
+
+  protected $casts = [
+    'inicio' => 'datetime',
+    'fin' => 'datetime',
   ];
 
   /**Reserva -> Usuario (1:1) */
   public function usuario()
   {
-    return $this->belongsTo(User::class);
+    return $this->belongsTo(User::class, 'user_ci', 'ci');
+  }
+
+  /**Reserva -> Usuario (1:1) */
+  public function guardia()
+  {
+    return $this->hasOne(User::class, 'guardia_ci', 'ci');
   }
 }

@@ -15,16 +15,21 @@ class CreateReservasTable extends Migration
   {
     Schema::create('reservas', function (Blueprint $table) {
       $table->unsignedBigInteger('id')->primary();
-      $table->unsignedInteger('user_ci');
-      $table->dateTime('fecha_inicio');
-      $table->dateTime('fecha_fin');
-      $table->string('lugar', 100);
+      $table->unsignedInteger('user_ci')->index();
+      $table->unsignedInteger('guardia_ci')->index();
+      $table->dateTime('inicio');
+      $table->dateTime('fin');
+      $table->string('lugar', 200);
       $table->string('razon', 200);
       $table->integer('estado')->default(0);
-      $table->string('notas_guardia', 100);
+      $table->string('nota_guardia', 500);
+      $table->string('nota_usuario', 500);
       $table->timestamps();
 
       $table->foreign('user_ci')
+        ->references('ci')->on('users');
+
+      $table->foreign('guardia_ci')
         ->references('ci')->on('users');
     });
   }
