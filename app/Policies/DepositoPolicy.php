@@ -18,7 +18,7 @@ class DepositoPolicy
    */
   public function viewAny(User $user)
   {
-    return $user->rol === 3
+    return $user
       ? $this->allow()
       : $this->deny('Sin acceso');
   }
