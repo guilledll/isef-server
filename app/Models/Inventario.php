@@ -18,7 +18,6 @@ class Inventario extends Model
     'cantidad',
     'accion',
     'fecha',
-    'nota'
   ];
 
   protected $casts = [

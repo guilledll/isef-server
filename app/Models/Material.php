@@ -15,7 +15,8 @@ class Material extends Model
     'nombre',
     'categoria_id',
     'cantidad',
-    'deposito_id'
+    'deposito_id',
+    'nota'
   ];
 
   /**Material -> Deposito (1:1) */
@@ -33,7 +34,7 @@ class Material extends Model
   {
     return $this->belongsTo(Inventario::class);
   }
-  
+
   /**  Material -> MaterialesReservados (1:1) */
   public function MaterialReservado()
   {
