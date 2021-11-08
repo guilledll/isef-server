@@ -14,12 +14,14 @@ class CreateMaterialesReservadosTable extends Migration
   public function up()
   {
     Schema::create('materiales_reservados', function (Blueprint $table) {
-      $table->unsignedBigInteger('id')->primary();
-      $table->timestamps();
-      $table->unsignedBigInteger('reserva_id');
-      $table->unsignedBigInteger('material_id');
+      $table->bigIncrements('id');
+      $table->unsignedBigInteger('reserva_id')->index();
+      $table->unsignedBigInteger('material_id')->index();
+      $table->unsignedInteger('cantidad');
+
       $table->foreign('reserva_id')
         ->references('id')->on('reservas');
+
       $table->foreign('material_id')
         ->references('id')->on('materiales');
     });

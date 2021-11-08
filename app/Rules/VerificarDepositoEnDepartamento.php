@@ -2,19 +2,19 @@
 
 namespace App\Rules;
 
-use App\Models\Departamento;
+use App\Models\Deposito;
 use Illuminate\Contracts\Validation\Rule;
 
-class VerificarDepartamento implements Rule
+class VerificarDepositoEnDepartamento implements Rule
 {
   /**
    * Create a new rule instance.
    *
    * @return void
    */
-  public function __construct()
+  public function __construct($departamento_id)
   {
-    //
+    $this->departamento_id = $departamento_id;
   }
 
   /**
@@ -26,10 +26,10 @@ class VerificarDepartamento implements Rule
    */
   public function passes($attribute, $value)
   {
-    return Departamento::where(
-      'nombre',
-      $value
-    )->doesntExist();
+    return Deposito::where([
+      ['id', $value],
+      ['departamento_id', $this->departamento_id]
+    ])->exists();
   }
 
   /**
@@ -39,6 +39,6 @@ class VerificarDepartamento implements Rule
    */
   public function message()
   {
-    return 'Ya existe ese departamento en el sistema.';
+    return 'El depósito no es correcto';
   }
 }
