@@ -80,29 +80,18 @@ class MaterialController extends Controller
    */
   public function update(Request $request, Material $material)
   {
+
     $material = Material::findOrFail($request->id);
 
-    //Modifica cantidad
+    //Agrega a inventario
     if ($material->cantidad < $request->cantidad) {
-
-      //Verifica Si se modificó el deposito
-      if ($material->deposito_id != $request->deposito_id) { //Agrega registro de baja en el deposito viejo.
-        $registro = new Inventario();
-        $registro->material_id = $request->id;
-        $registro->user_ci = $request->usuario_ci;
-        $registro->cantidad = abs($material->cantidad - $request->cantidad);
-        $registro->deposito_id = $material->deposito_id;
-        $registro->accion = 0; //Es un movimiento sin cambios de cantidad.
-        $registro->fecha = now();
-        $registro->save();
-      }
 
       $inventario = new Inventario();
       $inventario->material_id = $request->id;
       $inventario->user_ci = $request->usuario_ci;
       $inventario->cantidad = abs($material->cantidad - $request->cantidad);
       $inventario->deposito_id = $request->deposito_id;
-      $inventario->accion = 1; //Alta
+      $inventario->accion = 1;
       $inventario->fecha = now();
       $inventario->save();
     } else {
@@ -112,24 +101,10 @@ class MaterialController extends Controller
       $inventario->user_ci = $request->usuario_ci;
       $inventario->deposito_id = $request->deposito_id;
       $inventario->cantidad = abs($material->cantidad - $request->cantidad);
-      $inventario->accion = 0; //Baja
+      $inventario->accion = 0;
       $inventario->fecha = now();
       $inventario->save();
     }
-
-    //Verifica Si se modificó el deposito
-    if ($material->deposito_id != $request->deposito_id) { //Agrega registro de baja en el deposito viejo.
-      $registro = new Inventario();
-      $registro->material_id = $request->id;
-      $registro->user_ci = $request->usuario_ci;
-      $registro->cantidad = abs($material->cantidad - $request->cantidad);
-      $registro->deposito_id = $material->deposito_id;
-      $registro->accion = 2; //Es un movimiento sin cambios de cantidad.
-      $registro->fecha = now();
-      $registro->save();
-    }
-
-
     //Actualiza material
     $material->update([
       'nombre' => $request->nombre,
