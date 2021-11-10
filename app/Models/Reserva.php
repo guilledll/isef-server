@@ -9,6 +9,8 @@ class Reserva extends Model
 {
   use HasFactory;
 
+  public $timestamps = false;
+
   protected $fillable = [
     'user_ci',
     'guardia_ci',
@@ -43,5 +45,11 @@ class Reserva extends Model
   public function deposito()
   {
     return $this->belongsTo(Deposito::class);
+  }
+
+  /** Reserva -> Materiales (1:N) */
+  public function materiales()
+  {
+    return $this->hasMany(MaterialesReservados::class);
   }
 }
