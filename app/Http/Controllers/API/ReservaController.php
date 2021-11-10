@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reserva\IniciarReservaRequest;
 use App\Http\Requests\Reserva\StoreReservaRequest;
 use App\Http\Resources\MaterialResource;
+use App\Http\Resources\ReservaResource;
 use App\Models\Material;
 use App\Models\Reserva;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class ReservaController extends Controller
    */
   public function index()
   {
-    //
+    return ReservaResource::collection(Reserva::with('deposito', 'usuario')->get());
   }
 
   /**

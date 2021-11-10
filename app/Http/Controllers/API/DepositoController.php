@@ -30,7 +30,7 @@ class DepositoController extends Controller
   {
     return DepositoResource::collection(
       Deposito::withSum('materiales as cantidad_materiales', 'cantidad')
-        ->with('departamento')
+        ->withCount('reservas')
         ->get()
     );
   }
