@@ -15,7 +15,7 @@
 </ul>
 @endcomponent
 <p style="text-align: center">
-  Para gestiona a este usuario debe ingresar al sistema
+  Para dar acceso o rechazar a este usuario debe ingresar al sistema.
 </p>
 @component('mail::button', ['url' => $url, 'color' => 'success'])
   Ingresar

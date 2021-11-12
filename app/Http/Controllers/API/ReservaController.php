@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reserva\IniciarReservaRequest;
 use App\Http\Requests\Reserva\StoreReservaRequest;
 use App\Http\Resources\MaterialResource;
+use App\Mail\ReservaPendienteMail;
 use App\Models\Material;
 use App\Models\Reserva;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ReservaController extends Controller
 {
@@ -123,7 +125,26 @@ class ReservaController extends Controller
 
     DB::table('materiales_reservados')->insert($materiales);
 
-    return response()->json(['message' => 'Reserva realizada con éxito!']);
+    $mensaje = ['message' => 'Reserva realizada con éxito!', 'pendiente' => false];
+
+    // Si necesita ser aprobada
+    if ($request->validar) {
+      // Selecciono 5 admins al azar de ese departamento
+      $admins = DB::table('users')->where([
+        ['departamento_id', $request->departamento_id], ['rol', 3]
+      ])->limit(1)->get('correo');
+
+      foreach ($admins as $admin) {
+        Mail::to($admin->correo)
+          ->send(new ReservaPendienteMail(
+            $request,
+            url(env('SPA_URL') . '/reservas/' . $reserva->id)
+          ));
+      }
+      $mensaje['pendiente'] = true;
+    }
+
+    return response()->json($mensaje);
   }
 
   /**

@@ -2,16 +2,15 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NuevoIngresoMail extends Mailable
+class ReservaPendienteMail extends Mailable
 {
   use Queueable, SerializesModels;
 
-  public $user;
+  public $reserva;
   public $url;
 
   /**
@@ -19,9 +18,9 @@ class NuevoIngresoMail extends Mailable
    *
    * @return void
    */
-  public function __construct(User $user, $url)
+  public function __construct($reserva, $url)
   {
-    $this->user = $user;
+    $this->reserva = $reserva;
     $this->url = $url;
   }
 
@@ -32,6 +31,6 @@ class NuevoIngresoMail extends Mailable
    */
   public function build()
   {
-    return $this->markdown('mails.nuevo-ingreso');
+    return $this->markdown('mails.reserva-pendiente');
   }
 }
