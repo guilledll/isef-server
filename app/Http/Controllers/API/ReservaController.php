@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Reserva\IniciarReservaRequest;
-use App\Http\Requests\Reserva\StoreReservaRequest;
-use App\Http\Resources\MaterialResource;
-use App\Http\Resources\ReservaResource;
-use App\Models\Material;
 use App\Models\Reserva;
+use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\MaterialesReservados;
+use App\Http\Resources\ReservaResource;
+use App\Http\Resources\MaterialResource;
+use App\Http\Requests\Reserva\StoreReservaRequest;
+use App\Http\Requests\Reserva\IniciarReservaRequest;
 
 class ReservaController extends Controller
 {
@@ -90,9 +91,15 @@ class ReservaController extends Controller
    * @param  \App\Models\Reserva  $reserva
    * @return \Illuminate\Http\Response
    */
-  public function show(Reserva $reserva)
+  public function show($id)
   {
-    //
+    $reserva = Reserva::find($id);
+    $materiales = MaterialesReservados::where('reserva_id', $reserva->id)->with('material')->get();
+
+    return response()->json([
+      'reserva' => $reserva,
+      'materiales' => $materiales
+    ]);
   }
 
   /**

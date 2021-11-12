@@ -23,6 +23,7 @@ class MaterialResource extends JsonResource
       'categoria' => $this->categoria->nombre,
       'categoria_id' => $this->categoria->id,
       'cantidad' => $this->cantidad,
+      
     ];
   }
 }

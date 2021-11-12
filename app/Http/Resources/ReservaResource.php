@@ -30,7 +30,6 @@ class ReservaResource extends JsonResource
       'user' => $this->usuario->nombre,
       'deposito' => $this->deposito->nombre,
       'cantidad_reservas' => intval($this->cantidad_reservas),
-
     ];
   }
 }

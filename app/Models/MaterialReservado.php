@@ -13,12 +13,11 @@ class MaterialReservado extends Model
   /**  MaterialReservado -> Material (1:1) */
   public function material()
   {
-    return $this->belongsTo(Material::class);
+    return $this->hasOne(Material::class, 'id', 'material_id');
   }
   /**  MaterialReservado -> Reserva (1:1) */
   public function reserva()
   {
     return $this->belongsTo(Reserva::class);
   }
-
 }
