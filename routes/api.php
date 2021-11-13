@@ -27,6 +27,7 @@ Route::group(['prefix' => 'v1'], function () {
     // Rutas de reservas
     Route::post('reservas/iniciar', [ReservaController::class, 'iniciar']);
 
+
     Route::apiResources([
       'users' => UserController::class,
       'departamentos' => DepartamentoController::class,
