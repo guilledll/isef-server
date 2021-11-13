@@ -8,6 +8,8 @@ use App\Http\Controllers\API\DepositoController;
 use App\Http\Controllers\API\ReservaController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MaterialesPerdidosController;
+use App\Models\MaterialesPerdidos;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
@@ -27,7 +29,6 @@ Route::group(['prefix' => 'v1'], function () {
     // Rutas de reservas
     Route::post('reservas/iniciar', [ReservaController::class, 'iniciar']);
 
-
     Route::apiResources([
       'users' => UserController::class,
       'departamentos' => DepartamentoController::class,
@@ -36,10 +37,11 @@ Route::group(['prefix' => 'v1'], function () {
       'material' => MaterialController::class,
       'inventario' => InventarioController::class,
       'reservas' => ReservaController::class,
+      'materialesPerdidos' => MaterialesPerdidosController::class,
     ]);
   });
 
-  // Declarada aparte por ser publica
+  // Declarada a parte por ser pública.
   Route::get('/departamentos', [DepartamentoController::class, 'index'])
     ->withoutMiddleware('auth:sanctum')
     ->withoutMiddleware('verified');

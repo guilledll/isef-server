@@ -52,4 +52,9 @@ class Reserva extends Model
   {
     return $this->hasMany(MaterialesReservados::class);
   }
+  /** Reserva -> materialesPerdidos (1:1) */
+  public function materialesPerdidos()
+  {
+    return $this->hasMany(MaterialesPerdidos::class);
+  }
 }
