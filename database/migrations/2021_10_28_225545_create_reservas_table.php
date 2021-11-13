@@ -25,7 +25,6 @@ class CreateReservasTable extends Migration
       $table->integer('estado');
       $table->string('nota_guardia', 500)->nullable();
       $table->string('nota_usuario', 500)->nullable();
-      $table->timestamps();
 
       $table->foreign('user_ci')
         ->references('ci')->on('users');
