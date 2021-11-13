@@ -94,10 +94,21 @@ class ReservaController extends Controller
   public function show($id)
   {
     $reserva = Reserva::find($id);
-    $materiales = MaterialesReservados::where('reserva_id', $reserva->id)->with('material')->get();
+    $materialesReservados = MaterialesReservados::where('reserva_id', $reserva->id)->with('material')->get();
+
+    $materiales = array();
+
+    foreach ($materialesReservados as $material) {
+      $mat['nombre'] = $material->material->nombre;
+      $mat['id'] = $material->id;
+      $mat['material_id'] = $material->material_id;
+      $mat['cantidad'] = $material->cantidad;
+      $mat['reserva_id'] = $material->reserva_id;
+      array_push($materiales, $mat);
+    }
 
     return response()->json([
-      'reserva' => $reserva,
+      'reserva' => new ReservaResource($reserva),
       'materiales' => $materiales
     ]);
   }

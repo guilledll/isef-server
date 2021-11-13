@@ -19,7 +19,7 @@ class MaterialesReservados extends Model
   /**  MaterialReservado -> Material (1:1) */
   public function material()
   {
-    return $this->hasOne(Material::class);
+    return $this->belongsTo(Material::class);
   }
   /**  MaterialReservado -> Reserva (1:1) */
   public function reserva()

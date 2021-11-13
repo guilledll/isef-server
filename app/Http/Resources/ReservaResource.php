@@ -14,12 +14,13 @@ class ReservaResource extends JsonResource
    */
   public function toArray($request)
   {
-
     return [
       'id' => $this->id,
       'user_ci' => $this->user_ci,
+      'user' => $this->usuario->nombre . ' ' . $this->usuario->apellido,
       'guardia_ci' => $this->guardia_ci,
       'deposito_id' => $this->deposito_id,
+      'deposito' => $this->deposito->nombre,
       'inicio' => $this->inicio,
       'fin' => $this->fin,
       'lugar' => $this->lugar,
@@ -27,9 +28,6 @@ class ReservaResource extends JsonResource
       'estado' => $this->estado,
       'nota_guardia' => $this->nota_guardia,
       'nota_usuario' => $this->nota_usuario,
-      'user' => $this->usuario->nombre,
-      'deposito' => $this->deposito->nombre,
-      'cantidad_reservas' => intval($this->cantidad_reservas),
     ];
   }
 }

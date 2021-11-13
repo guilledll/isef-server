@@ -35,8 +35,8 @@ class Material extends Model
     return $this->belongsTo(Inventario::class);
   }
   /**  Material -> MaterialesReservados (1:1) */
-  public function materialReservado()
+  public function reservados()
   {
-    return $this->hasOne(MaterialReservado::class);
+    return $this->hasMany(MaterialReservado::class);
   }
 }
