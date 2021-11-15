@@ -26,6 +26,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('material/{id}/movimientos', [MaterialController::class, 'movimientos']);
     // Rutas de reservas
     Route::post('reservas/iniciar', [ReservaController::class, 'iniciar']);
+    Route::post('reservas/{reserva}/entregar', [ReservaController::class, 'entregar']);
 
 
     Route::apiResources([
