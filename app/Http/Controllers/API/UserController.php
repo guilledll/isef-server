@@ -44,11 +44,12 @@ class   UserController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(UpdateUserRequest $request, User $usuario)
+  public function update(UpdateUserRequest $request, User $user)
   {
-    $usuario->update([
+
+    $user->update([
       'nombre' => $request->nombre,
-      'apellido' => $request->nombre,
+      'apellido' => $request->apellido,
       'telefono' => $request->telefono,
       'departamento_id' => $request->departamento_id,
       'correo' => $request->correo,
