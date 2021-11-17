@@ -25,8 +25,8 @@ class Reserva extends Model
   ];
 
   protected $casts = [
-    'inicio' => 'datetime',
-    'fin' => 'datetime',
+    'inicio' => 'datetime:Y-m-d H:i:s',
+    'fin' => 'datetime:Y-m-d H:i:s',
   ];
 
   /** Reserva -> Usuario (1:1) */
