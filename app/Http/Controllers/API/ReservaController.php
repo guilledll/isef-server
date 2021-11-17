@@ -25,7 +25,7 @@ class ReservaController extends Controller
    */
   public function index()
   {
-    return ReservaResource::collection(Reserva::with('deposito', 'usuario')->get());
+    return ReservaResource::collection(Reserva::with('deposito', 'usuario')->orderBy('estado')->get());
   }
 
   /**
@@ -111,7 +111,7 @@ class ReservaController extends Controller
       'deposito_id' => $request->deposito_id,
       'lugar' => $request->lugar,
       'razon' => $request->razon,
-      'estado' => $request->validar ? 1 : 2,
+      'estado' => $request->validar ? 3 : 2,
       'nota_usuario' => $request->notas,
     ]);
 
@@ -175,6 +175,32 @@ class ReservaController extends Controller
       'reserva' => new ReservaResource($reserva),
       'materiales' => $materiales
     ]);
+  }
+
+  /**
+   * Entregar un reserva al usuario (como guardia).
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Models\Reserva  $reserva
+   * @return \Illuminate\Http\Response
+   */
+  public function entregar(Request $request, Reserva $reserva)
+  {
+    $reserva->update([
+      'guardia_ci' => $request->guardia_ci,
+      'estado' => 1,
+    ]);
+
+    return response()->json(['message' => 'Reserva entregada con éxito!']);
+  }
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function getAllReservaUsuario($ci)
+  {
+    return ReservaResource::collection(Reserva::with('deposito', 'usuario')->where('user_ci', $ci)->orderBy('estado')->get());
   }
 
   /**
