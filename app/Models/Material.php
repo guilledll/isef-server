@@ -37,6 +37,6 @@ class Material extends Model
   /**  Material -> MaterialesReservados (1:1) */
   public function reservados()
   {
-    return $this->hasMany(MaterialReservado::class);
+    return $this->hasMany(MaterialesReservados::class);
   }
 }
