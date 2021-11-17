@@ -25,8 +25,8 @@ class Reserva extends Model
   ];
 
   protected $casts = [
-    'inicio' => 'datetime',
-    'fin' => 'datetime',
+    'inicio' => 'datetime:Y-m-d H:i:s',
+    'fin' => 'datetime:Y-m-d H:i:s',
   ];
 
   /** Reserva -> Usuario (1:1) */
@@ -51,5 +51,10 @@ class Reserva extends Model
   public function materiales()
   {
     return $this->hasMany(MaterialesReservados::class);
+  }
+  /** Reserva -> materialesPerdidos (1:1) */
+  public function materialesPerdidos()
+  {
+    return $this->hasMany(MaterialesPerdidos::class);
   }
 }
