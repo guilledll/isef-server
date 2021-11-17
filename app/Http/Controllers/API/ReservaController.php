@@ -193,6 +193,15 @@ class ReservaController extends Controller
 
     return response()->json(['message' => 'Reserva entregada con éxito!']);
   }
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function getAllReservaUsuario($ci)
+  {
+    return ReservaResource::collection(Reserva::with('deposito', 'usuario')->where('user_ci', $ci)->orderBy('estado')->get());
+  }
 
   /**
    * Update the specified resource in storage.

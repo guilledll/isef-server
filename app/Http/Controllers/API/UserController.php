@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\UsuarioAprobadoMail;
 use App\Models\User;
@@ -43,9 +44,15 @@ class   UserController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(UpdateUserRequest $request, User $usuario)
   {
-    //
+    $usuario->update([
+      'nombre' => $request->nombre,
+      'apellido' => $request->nombre,
+      'telefono' => $request->telefono,
+      'departamento_id' => $request->departamento_id,
+      'correo' => $request->correo,
+    ]);
   }
 
   /**

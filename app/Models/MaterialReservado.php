@@ -9,7 +9,6 @@ class MaterialReservado extends Model
 {
   use HasFactory;
 
-
   /**  MaterialReservado -> Material (1:1) */
   public function material()
   {
