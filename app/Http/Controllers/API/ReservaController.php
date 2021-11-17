@@ -9,6 +9,7 @@ use App\Http\Resources\MaterialResource;
 use App\Http\Resources\ReservaResource;
 use App\Mail\ReservaPendienteMail;
 use App\Models\Material;
+use App\Models\MaterialesPerdidos;
 use App\Models\MaterialesReservados;
 use App\Models\Reserva;
 use Carbon\Carbon;
@@ -155,10 +156,10 @@ class ReservaController extends Controller
    * @param  \App\Models\Reserva  $reserva
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
+  public function show(Reserva $reserva)
   {
-    $reserva = Reserva::find($id);
-    $materialesReservados = MaterialesReservados::where('reserva_id', $reserva->id)->with('material')->get();
+    $materialesReservados = MaterialesReservados::where('reserva_id', $reserva->id)
+      ->with('material')->get();
 
     $materiales = array();
 
@@ -178,6 +179,16 @@ class ReservaController extends Controller
   }
 
   /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function getAllReservaUsuario($ci)
+  {
+    return ReservaResource::collection(Reserva::with('deposito', 'usuario')->where('user_ci', $ci)->orderBy('estado')->get());
+  }
+
+  /**
    * Entregar un reserva al usuario (como guardia).
    *
    * @param  \Illuminate\Http\Request  $request
@@ -193,14 +204,38 @@ class ReservaController extends Controller
 
     return response()->json(['message' => 'Reserva entregada con éxito!']);
   }
+
   /**
-   * Display a listing of the resource.
+   * Recibe un reserva del usuario (como guardia).
    *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Models\Reserva  $reserva
    * @return \Illuminate\Http\Response
    */
-  public function getAllReservaUsuario($ci)
+  public function recibir(Request $request, Reserva $reserva)
   {
-    return ReservaResource::collection(Reserva::with('deposito', 'usuario')->where('user_ci', $ci)->orderBy('estado')->get());
+    $reserva->update([
+      'nota_guardia' => $request->nota_guardia,
+      'estado' => 4,
+    ]);
+
+    // Generar reporte si es necesario
+    if ($request->problema) {
+      // Si hay materiales perdidos los guardo
+      $materiales_perdidos = ($request->perdidos)
+        ? $request->materiales_perdidos
+        : null;
+
+      MaterialesPerdidos::create([
+        'reserva_id' => $reserva->id,
+        'guardia_ci' => $request->guardia_ci,
+        'materiales' => $materiales_perdidos,
+        'nota' => $request->nota_perdidos,
+        'fecha' => now(),
+      ]);
+    }
+
+    return response()->json(['message' => 'Reserva recibida.']);
   }
 
   /**

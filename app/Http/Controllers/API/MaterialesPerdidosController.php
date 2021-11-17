@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\MaterialesPerdidosResource;
 use App\Models\MaterialesPerdidos;
 use Illuminate\Http\Request;
@@ -36,14 +37,7 @@ class MaterialesPerdidosController extends Controller
    */
   public function store(Request $request)
   {
-    $materialPerdido = new MaterialesPerdidos();
-    $materialPerdido->nota = $request->nota;
-    $materialPerdido->reportador_ci = $request->reportador_ci;
-    $materialPerdido->reserva_id = 1; //$request->reserva_ci;
-    $materialPerdido->fecha = now();
-    $materialPerdido->save();
-
-    return response($materialPerdido);
+    //
   }
 
   /**

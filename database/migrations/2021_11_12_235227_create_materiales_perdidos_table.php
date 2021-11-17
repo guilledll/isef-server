@@ -16,10 +16,14 @@ class CreateMaterialesPerdidosTable extends Migration
   {
     Schema::create('materiales_perdidos', function (Blueprint $table) {
       $table->bigIncrements('id');
-      $table->unsignedInteger('reportador_ci')->index();
-      $table->unsignedBigInteger('reserva_id')->index();
-      $table->string('nota', 500);
+      $table->unsignedInteger('guardia_ci')->index();
+      $table->unsignedInteger('reserva_id')->constrained();
+      $table->string('materiales', 1000)->nullable();
+      $table->string('nota', 500)->nullable();
       $table->dateTime('fecha');
+
+      $table->foreign('guardia_ci')
+        ->references('ci')->on('users');
     });
   }
 

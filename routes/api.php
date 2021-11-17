@@ -1,19 +1,18 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DepartamentoController;
 use App\Http\Controllers\API\InventarioController;
 use App\Http\Controllers\API\MaterialController;
 use App\Http\Controllers\API\CategoriaController;
 use App\Http\Controllers\API\DepositoController;
+use App\Http\Controllers\API\MaterialesPerdidosController;
 use App\Http\Controllers\API\ReservaController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MaterialesPerdidosController;
-use App\Models\MaterialesPerdidos;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
-  Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+  Route::middleware(['auth:sanctum'])->group(function () {
     // Rutas de usuario
     Route::get('/user', AuthController::class)->withoutMiddleware('verified');
     Route::put('/users/{user}/rol', [UserController::class, 'updateRol']);
@@ -30,6 +29,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('reservas/usuario/{ci}', [ReservaController::class, 'getAllReservaUsuario']);
     Route::post('reservas/iniciar', [ReservaController::class, 'iniciar']);
     Route::post('reservas/{reserva}/entregar', [ReservaController::class, 'entregar']);
+    Route::post('reservas/{reserva}/recibir', [ReservaController::class, 'recibir']);
 
     Route::apiResources([
       'users' => UserController::class,
