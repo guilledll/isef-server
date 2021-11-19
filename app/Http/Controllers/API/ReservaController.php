@@ -158,6 +158,8 @@ class ReservaController extends Controller
    */
   public function show(Reserva $reserva)
   {
+    $materialesPerdidos = MaterialesPerdidos::where('reserva_id', $reserva->id)->first();
+
     $materialesReservados = MaterialesReservados::where('reserva_id', $reserva->id)
       ->with('material')->get();
 
@@ -174,7 +176,8 @@ class ReservaController extends Controller
 
     return response()->json([
       'reserva' => new ReservaResource($reserva),
-      'materiales' => $materiales
+      'materiales' => $materiales,
+      'perdidos' => $materialesPerdidos,
     ]);
   }
 
