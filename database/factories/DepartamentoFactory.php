@@ -22,7 +22,7 @@ class DepartamentoFactory extends Factory
   public function definition()
   {
     return [
-      'nombre' => $this->faker->text(rand(6, 20))
+      'nombre' => $this->faker->text(rand(5, 20))
     ];
   }
 }

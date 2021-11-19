@@ -15,6 +15,14 @@ class Departamento extends Model
     'nombre',
   ];
 
+  /** Departamento -> Deposito (1:N)
+   */
+  public function depositos()
+  {
+    return $this->hasMany(Deposito::class);
+  }
+  /** Departamento -> Usuario (1:N)
+   */
   public function users()
   {
     return $this->hasMany(User::class);
