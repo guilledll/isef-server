@@ -53,6 +53,7 @@ class   UserController extends Controller
       'telefono' => $request->telefono,
       'departamento_id' => $request->departamento_id,
       'correo' => $request->correo,
+      'password' => $request->password
     ]);
   }
 
