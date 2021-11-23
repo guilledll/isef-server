@@ -43,12 +43,15 @@ class MaterialesPerdidosController extends Controller
   /**
    * Display the specified resource.
    *
-   * @param  \App\Models\MaterialesPerdidos  $materialesPerdidos
+   * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show(MaterialesPerdidos $materialesPerdidos)
+  public function show($id)
   {
-    //
+    $mat = MaterialesPerdidos::where('reserva_id', $id)->first();
+    // return response()->json($mat);
+
+    return new MaterialesPerdidosResource($mat);
   }
 
   /**

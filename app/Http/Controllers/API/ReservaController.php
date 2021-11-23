@@ -233,7 +233,7 @@ class ReservaController extends Controller
         'reserva_id' => $reserva->id,
         'guardia_ci' => $request->guardia_ci,
         'materiales' => $materiales_perdidos,
-        'nota' => $request->nota_perdidos,
+        'nota_guardia' => $request->nota_perdidos,
         'fecha' => now(),
       ]);
     }

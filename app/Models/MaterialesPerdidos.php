@@ -15,8 +15,11 @@ class MaterialesPerdidos extends Model
   protected $fillable = [
     'reserva_id',
     'guardia_ci',
+    'admin_ci',
     'materiales',
-    'nota',
+    'nota_guardia',
+    'nota_admin',
+    'accion_tomada',
     'fecha',
   ];
 
@@ -34,5 +37,11 @@ class MaterialesPerdidos extends Model
   public function guardia()
   {
     return $this->belongsTo(User::class, 'guardia_ci', 'ci');
+  }
+
+  /**  MaterialesPerdidos -> Guardia (1:1) */
+  public function admin()
+  {
+    return $this->hasOne(User::class, 'admin_ci', 'ci');
   }
 }
