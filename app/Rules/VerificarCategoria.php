@@ -26,7 +26,6 @@ class VerificarCategoria implements Rule
    */
   public function passes($attribute, $value)
   {
-    echo $value;
     return Categoria::where(
       'nombre',
       $value

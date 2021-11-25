@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MaterialesPerdidos\UpdateMaterialesPerdidosRequest;
 use App\Http\Resources\MaterialesPerdidosResource;
 use App\Models\MaterialesPerdidos;
 use Illuminate\Http\Request;
@@ -17,16 +18,6 @@ class MaterialesPerdidosController extends Controller
   public function index()
   {
     return MaterialesPerdidosResource::collection(MaterialesPerdidos::all());
-  }
-
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    //
   }
 
   /**
@@ -46,24 +37,11 @@ class MaterialesPerdidosController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
+  public function show(MaterialesPerdidos $materialesPerdido)
   {
-    $mat = MaterialesPerdidos::where('reserva_id', $id)->first();
-    // return response()->json($mat);
-
-    return new MaterialesPerdidosResource($mat);
+    return new MaterialesPerdidosResource($materialesPerdido);
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Models\MaterialesPerdidos  $materialesPerdidos
-   * @return \Illuminate\Http\Response
-   */
-  public function edit(MaterialesPerdidos $materialesPerdidos)
-  {
-    //
-  }
 
   /**
    * Update the specified resource in storage.
@@ -72,9 +50,15 @@ class MaterialesPerdidosController extends Controller
    * @param  \App\Models\MaterialesPerdidos  $materialesPerdidos
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, MaterialesPerdidos $materialesPerdidos)
+  public function update(UpdateMaterialesPerdidosRequest $request, MaterialesPerdidos $materialesPerdido)
   {
-    //
+    $materialesPerdido->update([
+      'admin_ci' => $request->admin_ci,
+      'nota_admin' => $request->nota_admin,
+      'accion_tomada' => true,
+    ]);
+
+    return response()->json(['message' => 'Accion registrada.']);
   }
 
   /**

@@ -36,12 +36,12 @@ class MaterialesPerdidos extends Model
   /**  MaterialesPerdidos -> Guardia (1:1) */
   public function guardia()
   {
-    return $this->belongsTo(User::class, 'guardia_ci', 'ci');
+    return $this->belongsTo(User::class, 'guardia_ci', 'ci', 'guardia');
   }
 
   /**  MaterialesPerdidos -> Guardia (1:1) */
   public function admin()
   {
-    return $this->hasOne(User::class, 'admin_ci', 'ci');
+    return $this->belongsTo(User::class, 'admin_ci', 'ci', 'admin');
   }
 }

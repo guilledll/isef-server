@@ -26,7 +26,10 @@ class ReservaController extends Controller
    */
   public function index()
   {
-    return ReservaResource::collection(Reserva::with('deposito', 'usuario')->orderBy('estado')->get());
+    return ReservaResource::collection(
+      Reserva::with('deposito', 'usuario', 'materialesPerdidos')
+        ->orderBy('estado')->get()
+    );
   }
 
   /**
@@ -158,8 +161,6 @@ class ReservaController extends Controller
    */
   public function show(Reserva $reserva)
   {
-    $materialesPerdidos = MaterialesPerdidos::where('reserva_id', $reserva->id)->first();
-
     $materialesReservados = MaterialesReservados::where('reserva_id', $reserva->id)
       ->with('material')->get();
 
@@ -173,6 +174,8 @@ class ReservaController extends Controller
       $mat['reserva_id'] = $material->reserva_id;
       array_push($materiales, $mat);
     }
+
+    $materialesPerdidos = MaterialesPerdidos::where('reserva_id', $reserva->id)->select('id')->first();
 
     return response()->json([
       'reserva' => new ReservaResource($reserva),
