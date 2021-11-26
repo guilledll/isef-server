@@ -20,7 +20,11 @@ class MaterialController extends Controller
    */
   public function index()
   {
-    return MaterialResource::collection(Material::with('deposito', 'categoria')->get());
+    return MaterialResource::collection(
+      Material::with('deposito', 'categoria')
+        ->orderBy('nombre', 'asc')
+        ->get()
+    );
   }
 
   /**
