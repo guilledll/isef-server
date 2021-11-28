@@ -20,7 +20,7 @@ return [
   ))),
 
   // Nos permite que /csrf-token se envie bajo /api/csrf-token
-  'prefix' => 'api',
+  'prefix' => 'api/sanctum',
 
   /*
    |--------------------------------------------------------------------------
