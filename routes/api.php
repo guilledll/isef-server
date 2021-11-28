@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->group(function () {
   // Rutas de usuario
-  Route::get('/user', AuthController::class)->withoutMiddleware('verified');
-  Route::put('/users/{user}/rol', [UserController::class, 'updateRol']);
+  Route::get('user', AuthController::class);
+  Route::put('users/{user}/rol', [UserController::class, 'updateRol']);
   // Rutas de departamentos
   Route::get('departamentos/{id}/depositos', [DepartamentoController::class, 'depositos']);
   Route::get('departamentos/{id}/usuarios', [DepartamentoController::class, 'usuarios']);
@@ -43,6 +43,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 // Declarada a parte por ser pública.
-Route::get('/departamentos', [DepartamentoController::class, 'index'])
-  ->withoutMiddleware('auth:sanctum')
-  ->withoutMiddleware('verified');
+Route::get('departamentos', [DepartamentoController::class, 'index'])
+  ->withoutMiddleware('auth:sanctum');
