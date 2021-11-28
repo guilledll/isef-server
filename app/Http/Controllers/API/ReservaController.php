@@ -26,7 +26,10 @@ class ReservaController extends Controller
    */
   public function index()
   {
-    return ReservaResource::collection(Reserva::with('deposito', 'usuario')->orderBy('estado')->get());
+    return ReservaResource::collection(
+      Reserva::with('deposito', 'usuario', 'materialesPerdidos')
+        ->orderBy('estado')->get()
+    );
   }
 
   /**
@@ -172,9 +175,12 @@ class ReservaController extends Controller
       array_push($materiales, $mat);
     }
 
+    $materialesPerdidos = MaterialesPerdidos::where('reserva_id', $reserva->id)->select('id')->first();
+
     return response()->json([
       'reserva' => new ReservaResource($reserva),
-      'materiales' => $materiales
+      'materiales' => $materiales,
+      'perdidos' => $materialesPerdidos,
     ]);
   }
 
@@ -230,7 +236,7 @@ class ReservaController extends Controller
         'reserva_id' => $reserva->id,
         'guardia_ci' => $request->guardia_ci,
         'materiales' => $materiales_perdidos,
-        'nota' => $request->nota_perdidos,
+        'nota_guardia' => $request->nota_perdidos,
         'fecha' => now(),
       ]);
     }

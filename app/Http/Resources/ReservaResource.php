@@ -28,6 +28,7 @@ class ReservaResource extends JsonResource
       'estado' => $this->estado,
       'nota_guardia' => $this->nota_guardia,
       'nota_usuario' => $this->nota_usuario,
+      'perdidos' => $this->materialesPerdidos ? true : false,
     ];
   }
 }
