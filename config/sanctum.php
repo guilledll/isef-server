@@ -1,5 +1,7 @@
 <?php
 
+$prod = env('APP_ENV') == 'production';
+
 return [
 
   /*
@@ -18,6 +20,10 @@ return [
     'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
     env('APP_URL') ? ',' . parse_url(env('APP_URL'), PHP_URL_HOST) : ''
   ))),
+
+  // Nos permite que /csrf-token se envie bajo /api/csrf-token
+  'prefix' => $prod ? 'api/sanctum' : 'sanctum',
+
 
   /*
    |--------------------------------------------------------------------------
