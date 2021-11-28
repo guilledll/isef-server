@@ -2,6 +2,8 @@
 
 use Laravel\Fortify\Features;
 
+$prod = env('APP_ENV') == 'production';
+
 return [
 
   /*
@@ -73,7 +75,7 @@ return [
     |
     */
 
-  // 'prefix' => 'api',
+  'prefix' => $prod ? 'api' : '',
 
   'domain' => null,
 

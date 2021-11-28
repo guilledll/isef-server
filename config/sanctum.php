@@ -1,5 +1,7 @@
 <?php
 
+$prod = env('APP_ENV') == 'production';
+
 return [
 
   /*
@@ -20,7 +22,8 @@ return [
   ))),
 
   // Nos permite que /csrf-token se envie bajo /api/csrf-token
-  // 'prefix' => 'api/sanctum',
+  'prefix' => $prod ? 'api/sanctum' : 'sanctum',
+
 
   /*
    |--------------------------------------------------------------------------
