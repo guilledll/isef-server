@@ -73,7 +73,7 @@ return [
     |
     */
 
-  'prefix' => '',
+  'prefix' => 'api',
 
   'domain' => null,
 
@@ -132,7 +132,7 @@ return [
 
   'features' => [
     Features::registration(),
-    Features::resetPasswords(),
+    // Features::resetPasswords(),
     Features::emailVerification(),
     // Features::updateProfileInformation(),
     // Features::updatePasswords(),

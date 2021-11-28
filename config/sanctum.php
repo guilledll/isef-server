@@ -19,6 +19,9 @@ return [
     env('APP_URL') ? ',' . parse_url(env('APP_URL'), PHP_URL_HOST) : ''
   ))),
 
+  // Nos permite que /csrf-token se envie bajo /api/csrf-token
+  'prefix' => 'api/sanctum',
+
   /*
    |--------------------------------------------------------------------------
    | Expiration Minutes
