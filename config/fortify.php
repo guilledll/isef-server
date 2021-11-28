@@ -73,7 +73,7 @@ return [
     |
     */
 
-  'prefix' => 'api',
+  // 'prefix' => 'api',
 
   'domain' => null,
 
