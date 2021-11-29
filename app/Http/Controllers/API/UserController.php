@@ -47,12 +47,14 @@ class   UserController extends Controller
   public function update(UpdateUserRequest $request, User $user)
   {
 
+
     $user->update([
       'nombre' => $request->nombre,
       'apellido' => $request->apellido,
       'telefono' => $request->telefono,
       'departamento_id' => $request->departamento_id,
       'correo' => $request->correo,
+
     ]);
   }
 
