@@ -210,7 +210,13 @@ class ReservaController extends Controller
 
     return response()->json(['message' => 'Reserva entregada con éxito!']);
   }
-
+  public function cancelar(Reserva $reserva)
+  {
+    $reserva->update([
+      'estado' => 5,
+    ]);
+    return response()->json(['message' => 'Reserva cancelada con éxito!']);
+  }
   /**
    * Recibe un reserva del usuario (como guardia).
    *
