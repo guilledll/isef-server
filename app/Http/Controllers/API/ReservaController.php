@@ -215,7 +215,8 @@ class ReservaController extends Controller
     $reserva->update([
       'estado' => 5,
     ]);
-    return response()->json(['message' => 'Reserva cancelada con éxito!']);
+    //return response()->json(['message' => 'Reserva cancelada con éxito!']);
+    return new ReservaResource($reserva);
   }
   /**
    * Recibe un reserva del usuario (como guardia).
@@ -246,7 +247,6 @@ class ReservaController extends Controller
         'fecha' => now(),
       ]);
     }
-
     return response()->json(['message' => 'Reserva recibida.']);
   }
 
