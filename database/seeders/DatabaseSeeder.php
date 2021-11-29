@@ -19,13 +19,14 @@ class DatabaseSeeder extends Seeder
    */
   public function run()
   {
-    Departamento::factory()->count(19)->create();
-    Deposito::factory()->count(30)->create();
-    User::factory()->count(40)->create();
-    Categoria::factory()->count(20)->create();
-    Material::factory()->count(100)->create();
-    Inventario::factory()->count(50)->create();
+    // Departamento::factory()->count(19)->create();
+    // Deposito::factory()->count(30)->create();
+    // User::factory()->count(40)->create();
+    // Categoria::factory()->count(20)->create();
+    // Material::factory()->count(100)->create();
+    // Inventario::factory()->count(50)->create();
 
+    $this->call(DepartamentoSeeder::class);
     $this->call(UserSeeder::class);
   }
 }

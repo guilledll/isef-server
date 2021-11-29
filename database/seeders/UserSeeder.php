@@ -21,17 +21,17 @@ class UserSeeder extends Seeder
     );
 
     foreach ($arr as list($ci, $nom, $ape, $correo, $tel)) {
-      $user = new User();
-      $user->ci = $ci;
-      $user->nombre = $nom;
-      $user->apellido = $ape;
-      $user->correo = $correo;
-      $user->departamento_id = 1;
-      $user->telefono = $tel;
-      $user->rol = 3;
-      $user->password = Hash::make('12345678');
-      $user->email_verified_at = now();
-      $user->save();
+      User::create([
+        'ci' => $ci,
+        'nombre' => $nom,
+        'apellido' => $ape,
+        'correo' => $correo,
+        'departamento_id' => 1,
+        'telefono' => $tel,
+        'rol' => 3,
+        'password' => Hash::make('12345678'),
+        'email_verified_at' => now(),
+      ]);
     }
   }
 }
