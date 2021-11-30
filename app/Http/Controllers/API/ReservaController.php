@@ -216,14 +216,22 @@ class ReservaController extends Controller
 
     return response()->json(['message' => 'Reserva entregada con éxito!']);
   }
+
+  /**
+   * Permite al usuario cancelar la reserva.
+   *
+   * @param  \App\Models\Reserva  $reserva
+   * @return \Illuminate\Http\Response
+   */
   public function cancelar(Reserva $reserva)
   {
     $reserva->update([
       'estado' => 5,
     ]);
-    //return response()->json(['message' => 'Reserva cancelada con éxito!']);
-    return new ReservaResource($reserva);
+
+    return response()->json(['message' => 'Reserva cancelada con éxito!']);
   }
+
   /**
    * Recibe un reserva del usuario (como guardia).
    *
@@ -257,7 +265,7 @@ class ReservaController extends Controller
   }
 
   /**
-   * Update the specified resource in storage.
+   * Permite al admin cancelar o aprobar la reserva
    *
    * @param  \Illuminate\Http\Request  $request
    * @param  \App\Models\Reserva  $reserva
@@ -265,7 +273,28 @@ class ReservaController extends Controller
    */
   public function update(Request $request, Reserva $reserva)
   {
-    //
+    $estadoAnterior = $reserva->estado;
+    $msg = null;
+
+    $reserva->update([
+      'estado' => $request->estado,
+    ]);
+
+    // Si antes la reserva estaba pendiente, debo avisarle al usuairio
+    // si fue aceptada o rechazada por el administrador
+    if ($estadoAnterior == 3) {
+
+      if ($request->estado == 2) {
+        // Aprobada
+        $msg = 'Reserva aprobada con éxito!';
+      }
+      if ($request->estado == 5) {
+        // Cancelada
+        $msg = 'Reserva cancelada con éxito!';
+      }
+    }
+
+    return response()->json(['message' => $msg]);
   }
 
   /**
