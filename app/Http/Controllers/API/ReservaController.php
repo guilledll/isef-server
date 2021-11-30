@@ -44,6 +44,7 @@ class ReservaController extends Controller
 
     // Todas las reservas que entren en el horarios indicado
     $reservas = Reserva::where('deposito_id', $request->deposito_id)
+      ->whereNotIn('estado', [4, 5])
       ->where(
         fn ($query) => $query->where('fin', '>', $inicio)
           ->where('inicio', '<', $inicio)
@@ -191,7 +192,12 @@ class ReservaController extends Controller
    */
   public function getAllReservaUsuario($ci)
   {
-    return ReservaResource::collection(Reserva::with('deposito', 'usuario')->where('user_ci', $ci)->orderBy('estado')->get());
+    return ReservaResource::collection(
+      Reserva::with('deposito', 'usuario')
+        ->where('user_ci', $ci)
+        ->orderBy('estado')
+        ->get()
+    );
   }
 
   /**
