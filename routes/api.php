@@ -30,6 +30,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::post('reservas/iniciar', [ReservaController::class, 'iniciar']);
   Route::post('reservas/{reserva}/entregar', [ReservaController::class, 'entregar']);
   Route::post('reservas/{reserva}/recibir', [ReservaController::class, 'recibir']);
+  Route::post('reservas/{reserva}/cancelar', [ReservaController::class, 'cancelar']);
   // Rutas adicionales
   Route::get('existen', ExistenController::class);
 

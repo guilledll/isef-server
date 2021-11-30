@@ -46,7 +46,6 @@ class   UserController extends Controller
    */
   public function update(UpdateUserRequest $request, User $user)
   {
-
     $user->update([
       'nombre' => $request->nombre,
       'apellido' => $request->apellido,
@@ -54,6 +53,8 @@ class   UserController extends Controller
       'departamento_id' => $request->departamento_id,
       'correo' => $request->correo,
     ]);
+
+    return response()->json(['message' => 'Usuario modificado con éxito!']);
   }
 
   /**
