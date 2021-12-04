@@ -14,7 +14,6 @@ class MaterialResource extends JsonResource
    */
   public function toArray($request)
   {
-
     return [
       'id' => $this->id,
       'nombre' => $this->nombre,
@@ -23,7 +22,6 @@ class MaterialResource extends JsonResource
       'categoria' => $this->categoria->nombre,
       'categoria_id' => $this->categoria->id,
       'cantidad' => $this->cantidad,
-      
     ];
   }
 }
