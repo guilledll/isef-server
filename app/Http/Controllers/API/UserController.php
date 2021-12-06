@@ -52,7 +52,6 @@ class   UserController extends Controller
       'telefono' => $request->telefono,
       'departamento_id' => $request->departamento_id,
       'correo' => $request->correo,
-
     ]);
 
     return response()->json(['message' => 'Usuario modificado con éxito!']);
