@@ -7,11 +7,13 @@ use App\Http\Requests\Reserva\IniciarReservaRequest;
 use App\Http\Requests\Reserva\StoreReservaRequest;
 use App\Http\Resources\MaterialResource;
 use App\Http\Resources\ReservaResource;
+use App\Mail\AccionReservaMail;
 use App\Mail\ReservaPendienteMail;
 use App\Models\Material;
 use App\Models\MaterialesPerdidos;
 use App\Models\MaterialesReservados;
 use App\Models\Reserva;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -138,7 +140,7 @@ class ReservaController extends Controller
     foreach ($reservas as $reserva) {
       foreach ($reserva['materiales'] as $material) {
 
-        $m = self::findMaterialReserva($materiales_interes, $materiales_interes);
+        $m = self::findMaterialReserva($reservas, $materiales_interes);
 
         if ($m) {
           // Si el material ya esta en el arreglo le sumo la nueva cantidad
@@ -193,13 +195,13 @@ class ReservaController extends Controller
    */
   public function store(StoreReservaRequest $request)
   {
-
+    /*
     $nodisp = self::verificarMaterialesDisp($request);
 
     if ($nodisp) {
       return response()->json("material no disponible");
     }
-
+    */
     $reserva = Reserva::create([
       'user_ci' => $request->user_ci,
       'inicio' => new Carbon($request->inicio),
@@ -307,6 +309,7 @@ class ReservaController extends Controller
 
     return response()->json(['message' => 'Reserva entregada con éxito!']);
   }
+
   /**
    * Permite al usuario cancelar la reserva.
    *
@@ -348,6 +351,7 @@ class ReservaController extends Controller
         'guardia_ci' => $request->guardia_ci,
         'materiales' => $materiales_perdidos,
         'nota_guardia' => $request->nota_perdidos,
+        'deposito_id' => $request->deposito_id,
         'fecha' => now(),
       ]);
     }
@@ -363,26 +367,29 @@ class ReservaController extends Controller
    */
   public function update(Request $request, Reserva $reserva)
   {
-    $estadoAnterior = $reserva->estado;
-    $msg = null;
+    // Aprobada
+    if ($request->estado == 2) {
+      $estado = 'aprobada';
+      $msg = 'Reserva aprobada con éxito!';
+    }
+    // Cancelada
+    if ($request->estado == 5) {
+      $estado = 'cancelada';
+      $msg = 'Reserva cancelada con éxito!';
+    }
 
     $reserva->update([
       'estado' => $request->estado,
     ]);
 
-    // Si antes la reserva estaba pendiente, debo avisarle al usuairio
-    // si fue aceptada o rechazada por el administrador
-    if ($estadoAnterior == 3) {
+    $user = User::where('ci', $reserva->user_ci)->first();
 
-      if ($request->estado == 2) {
-        // Aprobada
-        $msg = 'Reserva aprobada con éxito!';
-      }
-      if ($request->estado == 5) {
-        // Cancelada
-        $msg = 'Reserva cancelada con éxito!';
-      }
-    }
+    // Envia correo al usuario
+    Mail::to($user->correo)
+      ->send(
+        (new AccionReservaMail($reserva, url(env('SPA_URL') . '/perfil/' . $user->ci), $estado))
+          ->subject('Tu reserva fue ' . $estado)
+      );
 
     return response()->json(['message' => $msg]);
   }

@@ -29,7 +29,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('reservas/usuario/{ci}', [ReservaController::class, 'getAllReservaUsuario']);
   Route::post('reservas/iniciar', [ReservaController::class, 'iniciar']);
   Route::post('reservas/{reserva}/entregar', [ReservaController::class, 'entregar']);
-  Route::post('reservas/{reserva}/cancelar', [ReservaController::class, 'cancelar']);
   Route::post('reservas/{reserva}/recibir', [ReservaController::class, 'recibir']);
   Route::post('reservas/{reserva}/cancelar', [ReservaController::class, 'cancelar']);
   // Rutas adicionales

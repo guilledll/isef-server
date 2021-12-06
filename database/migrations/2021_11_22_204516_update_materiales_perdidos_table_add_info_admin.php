@@ -17,6 +17,7 @@ class UpdateMaterialesPerdidosTableAddInfoAdmin extends Migration
       $table->unsignedInteger('admin_ci')->nullable()->index();
       $table->string('nota_admin', 500)->nullable();
       $table->renameColumn('nota', 'nota_guardia');
+      $table->unsignedInteger('deposito_id')->constrained();
       $table->boolean('accion_tomada')->default(false);
 
       $table->foreign('admin_ci')
@@ -36,6 +37,7 @@ class UpdateMaterialesPerdidosTableAddInfoAdmin extends Migration
       $table->dropColumn('admin_ci');
       $table->dropColumn('nota_admin');
       $table->dropColumn('accion_tomada');
+      $table->dropColumn('deposito_id');
     });
   }
 }

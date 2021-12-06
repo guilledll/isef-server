@@ -48,7 +48,10 @@ class CreateNewUser implements CreatesNewUsers
 
     foreach ($admins as $admin) {
       Mail::to($admin->correo)
-        ->send(new NuevoIngresoMail($user, url(env('SPA_URL') . '/usuarios')));
+        ->send(
+          (new NuevoIngresoMail($user, url(env('SPA_URL') . '/usuarios')))
+            ->subject('Usuario nuevo!')
+        );
     }
 
     return $user;

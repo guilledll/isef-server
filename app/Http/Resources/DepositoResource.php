@@ -21,6 +21,7 @@ class DepositoResource extends JsonResource
       'departamento' => $this->departamento->nombre,
       'cantidad_materiales' => intval($this->cantidad_materiales),
       'reservas_count' => intval($this->reservas_count),
+      'materialesPerdidos_count'  => intval($this->materiales_perdidos_count),
     ];
   }
 }

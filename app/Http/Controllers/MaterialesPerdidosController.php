@@ -40,6 +40,7 @@ class MaterialesPerdidosController extends Controller
     $materialPerdido->nota = $request->nota;
     $materialPerdido->reportador_ci = $request->reportador_ci;
     $materialPerdido->reserva_id = 1; //$request->reserva_ci;
+    $materialPerdido->deposito_id = $request->deposito_id;
     $materialPerdido->fecha = now();
     $materialPerdido->save();
 
@@ -54,7 +55,7 @@ class MaterialesPerdidosController extends Controller
    */
   public function show(MaterialesPerdidos $materialesPerdidos)
   {
-    //
+    //return new MaterialesPerdidosResource($inventario);
   }
 
   /**
