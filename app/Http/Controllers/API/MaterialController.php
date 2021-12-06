@@ -9,6 +9,7 @@ use App\Http\Resources\MaterialResource;
 use App\Http\Resources\InventarioResource;
 use App\Http\Requests\Material\StoreMaterialRequest;
 use App\Http\Requests\Material\UpdateMaterialesRequest;
+use App\Http\Requests\MoverMaterialRequest;
 use Illuminate\Support\Facades\DB;
 
 class MaterialController extends Controller
@@ -139,5 +140,61 @@ class MaterialController extends Controller
       ->get();
 
     return InventarioResource::collection($movimientos);
+  }
+
+  /**
+   * Mueve el material de depósito
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function mover(MoverMaterialRequest $request, Material $material)
+  {
+    $cantidadInicial = $material->cantidad;
+    $arrayDeMateriales = array();
+
+    $nuevoMaterial = Material::updateOrCreate(
+      [
+        'nombre' => $material->nombre,
+        'deposito_id' => $request->deposito_destino_id,
+        'categoria_id' => $material->categoria_id
+      ],
+      ['cantidad' => DB::raw('cantidad + ' . $request->cantidad)]
+    );
+
+    // Movimiento de alta en el nuevo deposito
+    array_push($arrayDeMateriales, [
+      'material_id' => $nuevoMaterial->id,
+      'user_ci' => $request->usuario_ci,
+      'deposito_id' => $nuevoMaterial->deposito_id,
+      'cantidad' => $request->cantidad,
+      'accion' => 1,
+      'nota' => $request->nota,
+      'fecha' => now(),
+    ]);
+
+    // Actualizo la cantidad del existente
+    $material->update([
+      'cantidad' => abs($cantidadInicial - $request->cantidad),
+    ]);
+
+    // Movimiento de baja en el viejo deposito
+    array_push($arrayDeMateriales, [
+      'material_id' => $material->id,
+      'user_ci' => $request->usuario_ci,
+      'deposito_id' => $material->deposito_id,
+      'cantidad' => $request->cantidad,
+      'accion' => 0,
+      'nota' => $request->nota,
+      'fecha' => now(),
+    ]);
+
+    DB::table('inventarios')->insert($arrayDeMateriales);
+
+    return MaterialResource::collection(
+      Material::whereIn('id', [$material->id, $nuevoMaterial->id])
+        ->with('categoria', 'deposito')
+        ->get()
+    );
   }
 }

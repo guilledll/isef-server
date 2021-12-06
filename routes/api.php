@@ -25,6 +25,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('categorias/{id}/materiales', [CategoriaController::class, 'materiales']);
   // Rutas de materiales
   Route::get('material/{id}/movimientos', [MaterialController::class, 'movimientos']);
+  Route::post('material/{material}/mover', [MaterialController::class, 'mover']);
   // Rutas de reservas
   Route::get('reservas/usuario/{ci}', [ReservaController::class, 'getAllReservaUsuario']);
   Route::post('reservas/iniciar', [ReservaController::class, 'iniciar']);
