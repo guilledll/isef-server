@@ -39,12 +39,13 @@ class ReservaController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
+  //devuelve los materiales disponibles.
   public function iniciar(IniciarReservaRequest $request)
   {
     $inicio = new Carbon($request->inicio);
     $fin = new Carbon($request->fin);
 
-    // Todas las reservas que entren en el horarios indicado
+    // Todas las reservas que entren en el horario indicado
     $reservas = Reserva::where('deposito_id', $request->deposito_id)
       ->whereNotIn('estado', [4, 5])
       ->where(
@@ -60,6 +61,7 @@ class ReservaController extends Controller
     // matOcupados = Los materiales que esten siendo usados
     // matDisponibles = Los materiales disponibles para el usuario
     // matIDs = ID de los materiales ocupados
+
     $matOcupados = $matDisponibles = $matIDs = array();
 
     // De esas reservas todos los materiales reservados
@@ -103,6 +105,90 @@ class ReservaController extends Controller
     return MaterialResource::collection($materiales);
   }
 
+  //Devuelve todas las reservas en el horario especificado
+  public static function reservasEnHorario(StoreReservaRequest $request, $inicio, $fin)
+  {
+    $reserva = Reserva::where('deposito_id', $request->deposito_id)
+      ->whereNotIn('estado', [4, 5])
+      ->where(
+        fn ($query) => $query->where('fin', '>', $inicio)
+          ->where('inicio', '<', $inicio)
+      )->orWhere(
+        fn ($query) => $query->where('inicio', '>=', $inicio)
+          ->where('inicio', '<', $fin)
+      )
+      ->with('materiales')
+      ->get();
+
+    return $reserva;
+  }
+
+  public static function findMaterialReserva($id, $materiales)
+  {
+    foreach ($materiales as $material) {
+      if ($id == $material->id) {
+        return $material;
+      }
+    }
+  }
+
+  //Recibe las reservas y retorna todos los materiales reservados.
+  public static function materialesReservados($reservas, $materiales_interes)
+  {
+    $matOcupados = $matIDs = array();
+
+    // De esas reservas todos los materiales reservados
+    foreach ($reservas as $reserva) {
+      foreach ($reserva['materiales'] as $material) {
+
+        $m = self::findMaterialReserva($reservas, $materiales_interes);
+
+        if ($m) {
+          // Si el material ya esta en el arreglo le sumo la nueva cantidad
+          if (isset($matOcupados[$material->material_id])) {
+            $matOcupados[$material->material_id]->cantidad += $material->cantidad;
+          } else { // si no está lo agrego
+            $matOcupados[$material->material_id] = $material;
+            array_push($matIDs, $material->material_id);
+          }
+        }
+      }
+    }
+    // Busco los materiales que encontre reservados
+    $materialesReservados = Material::whereIn('id', $matIDs)
+      ->with(['deposito', 'categoria'])
+      ->get();
+
+    return $materialesReservados;
+  }
+
+  //Materiales que no estan reservados.
+  public static function materialesDisponibles(StoreReservaRequest $request, $matIDs)
+  {
+    //Los materiales que no estan reservados
+    $matLibres = Material::whereNotIn('id', $matIDs)
+      ->where('deposito_id', $request->deposito_id)
+      ->with(['deposito', 'categoria'])
+      ->get();
+    return $matLibres;
+  }
+
+  //Los ocupados que me interesan
+  public static function verificarMaterialesDisp(StoreReservaRequest $request)
+  {
+    $inicio = new Carbon($request->inicio);
+    $fin = new Carbon($request->fin);
+
+    $reservas = self::reservasEnHorario($request, $inicio, $fin); //Obtengo las reservas.
+    $materialesReservados = self::materialesReservados($reservas->materiales, $request->materiales); // Obtengo los materiales reservados que me interesan.
+    if (isset($materialesReservados)) {
+      return true;
+    } else {
+      return false;
+    }
+    //De los materiales que quiero, ver si hay disponibilidad (canditad: ok).
+  }
+
   /**
    * Store a newly created resource in storage.
    *
@@ -111,10 +197,13 @@ class ReservaController extends Controller
    */
   public function store(StoreReservaRequest $request)
   {
+    $request->inicio = new Carbon($request->inicio);
+    $request->fin = new Carbon($request->fin);
+
     $reserva = Reserva::create([
       'user_ci' => $request->user_ci,
-      'inicio' => new Carbon($request->inicio),
-      'fin' => new Carbon($request->fin),
+      'inicio' => $request->inicio,
+      'fin' => $request->fin,
       'deposito_id' => $request->deposito_id,
       'lugar' => $request->lugar,
       'razon' => $request->razon,
@@ -138,10 +227,10 @@ class ReservaController extends Controller
 
     // Si necesita ser aprobada
     if ($request->validar) {
-      // Selecciono 5 admins al azar de ese departamento
+      // Selecciono 3 admins al azar de ese departamento
       $admins = DB::table('users')->where([
         ['departamento_id', $request->departamento_id], ['rol', 3]
-      ])->limit(1)->get('correo');
+      ])->limit(3)->get('correo');
 
       foreach ($admins as $admin) {
         Mail::to($admin->correo)
@@ -260,6 +349,7 @@ class ReservaController extends Controller
         'guardia_ci' => $request->guardia_ci,
         'materiales' => $materiales_perdidos,
         'nota_guardia' => $request->nota_perdidos,
+        'deposito_id' => $request->deposito_id,
         'fecha' => now(),
       ]);
     }

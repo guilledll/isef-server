@@ -21,7 +21,7 @@ class ExistenController extends Controller
   {
     return response()->json([
       'depositos' => Deposito::first() ? true : false,
-      'materiales' => Material::first() ? true : false,
+      'materiales' => Material::where('cantidad', '>', 0)->first() ? true : false,
       // 'reservas' => Reserva::first() ? true : false,
       // 'registros' => Inventario::first() ? true : false,
     ]);
