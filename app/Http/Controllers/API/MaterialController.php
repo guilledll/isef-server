@@ -4,11 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Material;
 use App\Models\Inventario;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MaterialResource;
 use App\Http\Resources\InventarioResource;
 use App\Http\Requests\Material\StoreMaterialRequest;
+use App\Http\Requests\Material\UpdateMaterialesRequest;
+use App\Http\Requests\MoverMaterialRequest;
 use Illuminate\Support\Facades\DB;
 
 class MaterialController extends Controller
@@ -21,7 +22,8 @@ class MaterialController extends Controller
   public function index()
   {
     return MaterialResource::collection(
-      Material::with('deposito', 'categoria')
+      Material::where('cantidad', '>', 0)
+        ->with('deposito', 'categoria')
         ->orderBy('nombre', 'asc')
         ->get()
     );
@@ -82,38 +84,29 @@ class MaterialController extends Controller
    * @param  \App\Models\Material  $material
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Material $material)
+  public function update(UpdateMaterialesRequest $request, Material $material)
   {
+    // Movimiento en inventario
+    if ($material->cantidad != $request->cantidad) {
 
-    $material = Material::findOrFail($request->id);
+      // Si se están agregando o eliminando 
+      $accion = ($request->cantidad > $material->cantidad) ? 1 : 0;
 
-    //Agrega a inventario
-    if ($material->cantidad < $request->cantidad) {
-
-      $inventario = new Inventario();
-      $inventario->material_id = $request->id;
-      $inventario->user_ci = $request->usuario_ci;
-      $inventario->cantidad = abs($material->cantidad - $request->cantidad);
-      $inventario->deposito_id = $request->deposito_id;
-      $inventario->accion = 1;
-      $inventario->fecha = now();
-      $inventario->save();
-    } else {
-
-      $inventario = new Inventario();
-      $inventario->material_id = $request->id;
-      $inventario->user_ci = $request->usuario_ci;
-      $inventario->deposito_id = $request->deposito_id;
-      $inventario->cantidad = abs($material->cantidad - $request->cantidad);
-      $inventario->accion = 0;
-      $inventario->fecha = now();
-      $inventario->save();
+      // Registro el movimiento de inventario
+      Inventario::create([
+        'material_id' => $material->id,
+        'user_ci' => $request->usuario_ci,
+        'cantidad' => abs($material->cantidad - $request->cantidad),
+        'accion' => $accion,
+        'deposito_id' => $material->deposito_id,
+        'nota' => $request->nota,
+        'fecha' => now(),
+      ]);
     }
-    //Actualiza material
+
+    // Actualiza material
     $material->update([
       'nombre' => $request->nombre,
-      'deposito_id' => $request->deposito_id,
-      'categoria_id' => $request->categoria_id,
       'cantidad' => $request->cantidad,
     ]);
 
@@ -128,12 +121,11 @@ class MaterialController extends Controller
    */
   public function destroy($id)
   {
-    //$this->authorize('delete', $material);
     Material::findOrFail($id)->delete();
-    //$id->delete();
-    //return response()->json($material->delete());
+
     return response()->json(['message' => 'Material eliminado con éxito!'], 200);
   }
+
   /**
    * Devuelve los movimientos de ese material
    *
@@ -143,10 +135,66 @@ class MaterialController extends Controller
   public function movimientos($id)
   {
     $movimientos = Inventario::where('material_id', $id)
-      //  ->with(['deposito', 'material'])
+      ->with(['deposito', 'material'])
       ->orderBy('fecha', 'asc')
       ->get();
 
     return InventarioResource::collection($movimientos);
+  }
+
+  /**
+   * Mueve el material de depósito
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function mover(MoverMaterialRequest $request, Material $material)
+  {
+    $cantidadInicial = $material->cantidad;
+    $arrayDeMateriales = array();
+
+    $nuevoMaterial = Material::updateOrCreate(
+      [
+        'nombre' => $material->nombre,
+        'deposito_id' => $request->deposito_destino_id,
+        'categoria_id' => $material->categoria_id
+      ],
+      ['cantidad' => DB::raw('cantidad + ' . $request->cantidad)]
+    );
+
+    // Movimiento de alta en el nuevo deposito
+    array_push($arrayDeMateriales, [
+      'material_id' => $nuevoMaterial->id,
+      'user_ci' => $request->usuario_ci,
+      'deposito_id' => $nuevoMaterial->deposito_id,
+      'cantidad' => $request->cantidad,
+      'accion' => 1,
+      'nota' => $request->nota,
+      'fecha' => now(),
+    ]);
+
+    // Actualizo la cantidad del existente
+    $material->update([
+      'cantidad' => abs($cantidadInicial - $request->cantidad),
+    ]);
+
+    // Movimiento de baja en el viejo deposito
+    array_push($arrayDeMateriales, [
+      'material_id' => $material->id,
+      'user_ci' => $request->usuario_ci,
+      'deposito_id' => $material->deposito_id,
+      'cantidad' => $request->cantidad,
+      'accion' => 0,
+      'nota' => $request->nota,
+      'fecha' => now(),
+    ]);
+
+    DB::table('inventarios')->insert($arrayDeMateriales);
+
+    return MaterialResource::collection(
+      Material::whereIn('id', [$material->id, $nuevoMaterial->id])
+        ->with('categoria', 'deposito')
+        ->get()
+    );
   }
 }

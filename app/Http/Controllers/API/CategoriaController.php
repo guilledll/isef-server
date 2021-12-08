@@ -97,7 +97,7 @@ class CategoriaController extends Controller
    */
   public function materiales($id)
   {
-    $materiales = Material::where('categoria_id', $id)
+    $materiales = Material::where([['categoria_id', $id], ['cantidad', '>', 0]])
       ->with(['deposito', 'categoria'])
       ->orderBy('nombre', 'asc')
       ->get();

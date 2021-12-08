@@ -7,9 +7,9 @@
 @component('mail::panel')
 <ul>
   <li><b>Cédula usuario:</b> {{ $reserva->user_ci }}</li>
-  <li><b>Lugar:</b> {{$reserva->deposito}}, {{$reserva->departamento}}</li>
   <li><b>Fecha Inicio:</b> {{$reserva->inicio}}</li>
   <li><b>Fecha Inicio:</b> {{$reserva->fin}}</li>
+  <li><b>Lugar:</b> {{$reserva->deposito}}, {{$reserva->departamento}}</li>
   <li><b>Razón de uso:</b> {{$reserva->razon}}</li>
 </ul>
 @endcomponent
