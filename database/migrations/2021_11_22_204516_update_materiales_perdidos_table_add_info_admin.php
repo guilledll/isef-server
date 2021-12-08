@@ -37,10 +37,7 @@ class UpdateMaterialesPerdidosTableAddInfoAdmin extends Migration
       $table->dropColumn('admin_ci');
       $table->dropColumn('nota_admin');
       $table->dropColumn('accion_tomada');
-<<<<<<< HEAD
-=======
       $table->dropColumn('deposito_id');
->>>>>>> develop
     });
   }
 }
