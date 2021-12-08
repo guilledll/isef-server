@@ -19,6 +19,7 @@ class MaterialesPerdidos extends Model
     'materiales',
     'nota_guardia',
     'nota_admin',
+    'deposito_id',
     'accion_tomada',
     'fecha',
   ];
@@ -43,5 +44,11 @@ class MaterialesPerdidos extends Model
   public function admin()
   {
     return $this->belongsTo(User::class, 'admin_ci', 'ci', 'admin');
+  }
+
+  /**  MaterialesPerdidos -> Deposito (1:1) */
+  public function deposito()
+  {
+    return $this->belongsTo(Deposito::class);
   }
 }

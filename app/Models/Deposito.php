@@ -32,4 +32,10 @@ class Deposito extends Model
   {
     return $this->hasMany(Reserva::class);
   }
+
+  /**  Depósitos -> MaterialesPerdidos (1:N) */
+  public function materialesPerdidos()
+  {
+    return $this->hasMany(MaterialesPerdidos::class);
+  }
 }

@@ -27,7 +27,9 @@ class MaterialesPerdidosResource extends JsonResource
       'nota_guardia' => $this->nota_guardia,
       'nota_admin' => $this->nota_admin,
       'accion_tomada' => $this->accion_tomada,
-      'fecha' => $this->fecha,
+      'fecha' => $this->fecha->format('d-m-Y'),
+      'deposito' => $this->deposito->nombre,
+      'deposito_id' => $this->deposito_id,
     ];
   }
 }

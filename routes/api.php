@@ -6,6 +6,7 @@ use App\Http\Controllers\API\InventarioController;
 use App\Http\Controllers\API\MaterialController;
 use App\Http\Controllers\API\CategoriaController;
 use App\Http\Controllers\API\DepositoController;
+use App\Http\Controllers\API\ExistenController;
 use App\Http\Controllers\API\MaterialesPerdidosController;
 use App\Http\Controllers\API\ReservaController;
 use App\Http\Controllers\API\UserController;
@@ -24,11 +25,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('categorias/{id}/materiales', [CategoriaController::class, 'materiales']);
   // Rutas de materiales
   Route::get('material/{id}/movimientos', [MaterialController::class, 'movimientos']);
+  Route::post('material/{material}/mover', [MaterialController::class, 'mover']);
   // Rutas de reservas
   Route::get('reservas/usuario/{ci}', [ReservaController::class, 'getAllReservaUsuario']);
   Route::post('reservas/iniciar', [ReservaController::class, 'iniciar']);
   Route::post('reservas/{reserva}/entregar', [ReservaController::class, 'entregar']);
   Route::post('reservas/{reserva}/recibir', [ReservaController::class, 'recibir']);
+  Route::post('reservas/{reserva}/cancelar', [ReservaController::class, 'cancelar']);
+  // Rutas adicionales
+  Route::get('existen', ExistenController::class);
 
   Route::apiResources([
     'users' => UserController::class,
