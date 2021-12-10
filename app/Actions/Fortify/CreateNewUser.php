@@ -40,6 +40,7 @@ class CreateNewUser implements CreatesNewUsers
       'telefono' => $input['telefono'],
       'password' => Hash::make($input['password']),
       'rol' => 0, // 0 => Por verificar // 1 => Usuario // 2 => Guardia // 3 => Admin
+      'email_verified_at' => now(),
     ]);
 
     $admins = User::where([

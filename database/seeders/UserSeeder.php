@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
   {
     $arr = array(
       ['50656233', 'Guillermo', 'De León', 'guilledll20@gmail.com', '095189646'],
-      ['12345678', 'Joaquin', 'Gomez', 'joaco@gmail.com', '093124211']
+      ['49118280', 'Joaquín', 'Gómez', 'ggomezjjoaquin@gmail.com ', '093331558']
     );
 
     foreach ($arr as list($ci, $nom, $ape, $correo, $tel)) {

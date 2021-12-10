@@ -15,7 +15,7 @@ class DepartamentoSeeder extends Seeder
   public function run()
   {
     $arr = array(
-      'Maldonado', 'Rocha'
+      'Maldonado'
     );
 
     foreach ($arr as $nom) {
